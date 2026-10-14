@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>La Kampiña - Sabor Tradicional Cochabambino</title>
+    <meta name="description" content="Restaurante Criollo Tradicional en Cochabamba. Charque, Pique Macho, Chicharrón y Bebidas Típicas." />
+    <!-- Favicon & Mobile Browser Theme -->
+    <link rel="icon" type="image/webp" href="/logokampina3.webp" />
+    <meta name="theme-color" content="#12100e" />
+
+    <!-- OpenGraph / Social Sharing (WhatsApp, Facebook, Twitter) -->
+    <meta property="og:type" content="restaurant.restaurant" />
+    <meta property="og:title" content="La Kampiña - Sabor Tradicional Cochabambino" />
+    <meta property="og:description" content="Restaurante Criollo Tradicional en Cochabamba. Charque originario, Pique Macho, Chicharrón, Planchitas y Bebidas Típicas." />
+    <meta property="og:image" content="/logokampina3.webp" />
+    <meta property="og:locale" content="es_BO" />
+
+    <!-- Fontshare Typography for Premium Gastronomy: Clash Display + Cabinet Grotesk + Satoshi -->
+    <link rel="preconnect" href="https://api.fontshare.com" />
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=cabinet-grotesk@700,800&f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+
+    <!-- Schema.org Restaurant Structured Data for Google Search Rich Results -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": "La Kampiña",
+      "image": "/logokampina3.webp",
+      "servesCuisine": ["Bolivian", "Criolla", "Cochabambina"],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Av. D'orbigny Km 4 1/2, entre Av. Segunda y Rafael Torrico Montaño",
+        "addressLocality": "Cochabamba",
+        "addressCountry": "BO"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -17.3895,
+        "longitude": -66.1568
+      },
+      "telephone": "+59172212345",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          "opens": "10:30",
+          "closes": "18:30"
+        }
+      ],
+      "priceRange": "$$"
+    }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

@@ -1,0 +1,311 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Animación cinematográfica del fondo (visible, fluida, suave) */
+@keyframes kenburnsCinematic {
+  0% {
+    transform: scale(1.04) translate(0%, 0%);
+  }
+  50% {
+    transform: scale(1.12) translate(-1.5%, -1%);
+  }
+  100% {
+    transform: scale(1.08) translate(1%, 0.8%);
+  }
+}
+
+.animate-kenburns-smooth {
+  animation: kenburnsCinematic 20s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Balanceo de brisa natural para las palmeras en los 4 ángulos (visible y elegante) */
+@keyframes palmBreezeTL {
+  0% {
+    transform: rotate(0deg) translate(0, 0) scale(1);
+  }
+  50% {
+    transform: rotate(2.8deg) translate(4px, 2px) scale(1.02);
+  }
+  100% {
+    transform: rotate(-1.5deg) translate(-2px, -1px) scale(0.99);
+  }
+}
+
+@keyframes palmBreezeTR {
+  0% {
+    transform: rotate(0deg) translate(0, 0) scale(1);
+  }
+  50% {
+    transform: rotate(-2.8deg) translate(-4px, 2px) scale(1.02);
+  }
+  100% {
+    transform: rotate(1.5deg) translate(2px, -1px) scale(0.99);
+  }
+}
+
+@keyframes palmBreezeBL {
+  0% {
+    transform: rotate(0deg) translate(0, 0) scale(1);
+  }
+  50% {
+    transform: rotate(-2.5deg) translate(3px, -3px) scale(1.02);
+  }
+  100% {
+    transform: rotate(1.8deg) translate(-2px, 2px) scale(0.99);
+  }
+}
+
+@keyframes palmBreezeBR {
+  0% {
+    transform: rotate(0deg) translate(0, 0) scale(1);
+  }
+  50% {
+    transform: rotate(2.5deg) translate(-3px, -3px) scale(1.02);
+  }
+  100% {
+    transform: rotate(-1.8deg) translate(2px, 2px) scale(0.99);
+  }
+}
+
+.animate-palm-tl {
+  animation: palmBreezeTL 6.5s ease-in-out infinite alternate;
+  transform-origin: top left;
+  will-change: transform;
+}
+
+.animate-palm-tr {
+  animation: palmBreezeTR 7.2s ease-in-out infinite alternate;
+  transform-origin: top right;
+  will-change: transform;
+}
+
+.animate-palm-bl {
+  animation: palmBreezeBL 6.8s ease-in-out infinite alternate;
+  transform-origin: bottom left;
+  will-change: transform;
+}
+
+.animate-palm-br {
+  animation: palmBreezeBR 7.5s ease-in-out infinite alternate;
+  transform-origin: bottom right;
+  will-change: transform;
+}
+
+/* Balanceo natural para bóveda superior y flancos laterales */
+@keyframes palmCanopyL {
+  0%, 100% {
+    transform: rotate(0deg) translateY(0);
+  }
+  50% {
+    transform: rotate(2.2deg) translateY(3px);
+  }
+}
+
+@keyframes palmCanopyR {
+  0%, 100% {
+    transform: rotate(0deg) translateY(0);
+  }
+  50% {
+    transform: rotate(-2.2deg) translateY(3px);
+  }
+}
+
+@keyframes palmMidL {
+  0%, 100% {
+    transform: rotate(0deg) translateX(0);
+  }
+  50% {
+    transform: rotate(2deg) translateX(3px);
+  }
+}
+
+@keyframes palmMidR {
+  0%, 100% {
+    transform: rotate(0deg) translateX(0);
+  }
+  50% {
+    transform: rotate(-2deg) translateX(-3px);
+  }
+}
+
+.animate-palm-canopy-l {
+  animation: palmCanopyL 8s ease-in-out infinite;
+  transform-origin: top center;
+  will-change: transform;
+}
+
+.animate-palm-canopy-r {
+  animation: palmCanopyR 8.6s ease-in-out infinite;
+  transform-origin: top center;
+  will-change: transform;
+}
+
+.animate-palm-mid-l {
+  animation: palmMidL 6.4s ease-in-out infinite;
+  transform-origin: left center;
+  will-change: transform;
+}
+
+.animate-palm-mid-r {
+  animation: palmMidR 7.1s ease-in-out infinite;
+  transform-origin: right center;
+  will-change: transform;
+}
+
+/* Animación viva y natural para el pin de ubicación en el header (Smooth exponential float) */
+@keyframes pinFloatSubtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.animate-pin-bounce {
+  animation: pinFloatSubtle 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  display: inline-flex;
+  will-change: transform;
+}
+
+/* Accessibility: Respetar preferencias de reducción de movimiento (UI/UX Pro Max WCAG AA) */
+@media (prefers-reduced-motion: reduce) {
+  .animate-kenburns-smooth,
+  .animate-palm-tl,
+  .animate-palm-tr,
+  .animate-palm-bl,
+  .animate-palm-br,
+  .animate-palm-canopy-l,
+  .animate-palm-canopy-r,
+  .animate-palm-mid-l,
+  .animate-palm-mid-r,
+  .animate-pin-bounce {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* Hide scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Typography rendering optimizations & mobile overscroll background */
+html,
+body {
+  background-color: #0c0a09;
+  min-height: 100%;
+  min-height: -webkit-fill-available;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* =========================================================================
+   UI/UX PRO MAX & IMPECCABLE: Vibrant Culinary & Liquid Glass Design System
+   ========================================================================= */
+
+/* Apple Liquid Glass Translucent Surface (Luminous Warm Ivory) */
+.liquid-glass-card {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(24px) saturate(170%);
+  -webkit-backdrop-filter: blur(24px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow:
+    0 14px 38px -6px rgba(180, 83, 9, 0.09),
+    0 3px 12px rgba(0, 0, 0, 0.03),
+    inset 0 1.5px 1.5px rgba(255, 255, 255, 1);
+}
+
+/* Apple Liquid Glass Deep Obsidian (Warm Carbon VIP) */
+.liquid-glass-dark {
+  background: rgba(18, 16, 14, 0.88);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 24px 48px -12px rgba(0, 0, 0, 0.7),
+    0 6px 16px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+/* Frosted Glass Pill & Badges */
+.liquid-glass-pill {
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+/* Amber/Brand Liquid Glass Highlight */
+.liquid-glass-amber {
+  background: linear-gradient(135deg, rgba(203, 97, 21, 0.16) 0%, rgba(245, 158, 11, 0.10) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(203, 97, 21, 0.38);
+  box-shadow:
+    0 14px 34px -6px rgba(203, 97, 21, 0.2),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.6);
+}
+
+/* Vibrant Culinary Flame Button (WCAG AA Compliant > 4.5:1 Contrast with #ffffff & Neutral Elevation) */
+.btn-vibrant-flame {
+  background: linear-gradient(135deg, #c45009 0%, #b84807 50%, #9a3605 100%);
+  box-shadow:
+    0 8px 24px -4px rgba(0, 0, 0, 0.45),
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-vibrant-flame:hover {
+  background: linear-gradient(135deg, #cf550a 0%, #c45009 50%, #a43a06 100%);
+  box-shadow:
+    0 12px 28px -4px rgba(0, 0, 0, 0.55),
+    0 4px 10px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.45);
+  transform: translateY(-1px);
+}
+.btn-vibrant-flame:active {
+  transform: translateY(1px) scale(0.985);
+  box-shadow:
+    0 3px 8px -2px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Specular Light Refraction Bevel */
+:not(.fixed):not(.sticky):not(.absolute):not(.relative).specular-highlight {
+  position: relative;
+}
+.specular-highlight::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.9) 50%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Ambient Aura Pulse */
+@keyframes auraPulse {
+  0%, 100% {
+    opacity: 0.65;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.08);
+  }
+}
+.animate-aura-pulse {
+  animation: auraPulse 7s ease-in-out infinite;
+}
+

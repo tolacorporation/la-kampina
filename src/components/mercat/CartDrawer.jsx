@@ -1,0 +1,194 @@
+import React from 'react';
+import { useCart } from '../../context/CartContext';
+import { IconShoppingBag, IconX, IconUtensils, IconCloche, IconArrowRight } from '../common/Icons';
+
+export default function CartDrawer() {
+  const {
+    items,
+    isCartOpen,
+    setIsCartOpen,
+    updateQuantity,
+    removeFromCart,
+    clearCart,
+    totalCount,
+    totalAmount,
+    formatPrice,
+    setIsCheckoutOpen,
+  } = useCart();
+
+  if (!isCartOpen) return null;
+
+  const handleCheckout = () => {
+    setIsCartOpen(false);
+    setIsCheckoutOpen(true);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 overflow-hidden bg-black/75 backdrop-blur-sm animate-fade-in">
+      <div className="absolute inset-0" onClick={() => setIsCartOpen(false)} />
+
+      <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
+        <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col">
+          {/* Drawer Header */}
+          <div className="p-4 bg-stone-950 text-white flex items-center justify-between border-b border-stone-800">
+            <div className="flex items-center space-x-2.5">
+              <IconShoppingBag className="w-5 h-5 text-amber-500" />
+              <h2 className="text-sm md:text-base font-display font-bold uppercase tracking-wider text-white">
+                Tu Pedido • La Kampiña
+              </h2>
+              <span className="bg-gradient-to-r from-[#d95e0e] to-[#f59e0b] text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-sm">
+                {totalCount}
+              </span>
+            </div>
+            <button
+              onClick={() => setIsCartOpen(false)}
+              className="text-stone-400 hover:text-white p-1 rounded-lg transition"
+              aria-label="Cerrar pedido"
+            >
+              <IconX className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Drawer Body / Items List */}
+          <div className="flex-1 overflow-y-auto p-4 divide-y divide-stone-100">
+            {items.length === 0 ? (
+              <div className="h-full flex flex-col items-center justify-center text-center p-6 text-stone-500">
+                <div className="w-16 h-16 rounded-full bg-stone-100 flex items-center justify-center mb-3">
+                  <IconUtensils className="w-8 h-8 text-stone-400 stroke-[1.5]" />
+                </div>
+                <p className="font-black text-base text-stone-900">Tu bolsa está vacía</p>
+                <p className="text-xs text-stone-400 mt-1 max-w-xs leading-relaxed">
+                  Agrega charque, pique macho, chicharrón o bebidas criollas de La Kampiña.
+                </p>
+                <button
+                  onClick={() => setIsCartOpen(false)}
+                  className="mt-6 bg-amber-500 hover:bg-amber-400 text-stone-950 text-xs font-black uppercase tracking-wider px-5 py-2.5 rounded-xl shadow transition"
+                >
+                  Explorar Menú
+                </button>
+              </div>
+            ) : (
+              items.map((item) => {
+                const itemKey = item.id;
+                const unit = item.unitPrice;
+                const subtotal = unit * item.quantity;
+                return (
+                  <div key={itemKey} className="py-3.5 flex items-start space-x-3">
+                    {/* Thumbnail */}
+                    <div className="w-14 h-14 rounded-xl bg-stone-900 border border-stone-800 overflow-hidden flex-shrink-0 flex items-center justify-center">
+                      {item.product?.image ? (
+                        <img
+                          src={item.product.image}
+                          alt={item.product.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <IconCloche className="w-6 h-6 text-amber-400 stroke-[1.5]" />
+                      )}
+                    </div>
+
+                    {/* Details */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between">
+                        <h4 className="font-black text-xs md:text-sm text-stone-900 truncate uppercase">
+                          {item.product?.name}
+                        </h4>
+                        <span className="text-xs md:text-sm font-black text-stone-900 ml-2 whitespace-nowrap">
+                          {formatPrice(subtotal)}
+                        </span>
+                      </div>
+
+                      {/* Porción seleccionada */}
+                      {item.selectedOption && (
+                        <span className="inline-block mt-0.5 bg-amber-50 text-amber-900 border border-amber-200/60 text-[10px] font-bold uppercase px-2 py-0.5 rounded">
+                          Porción: {item.selectedOption.name}
+                        </span>
+                      )}
+
+                      <p className="text-[11px] text-stone-500 mt-0.5">{formatPrice(unit)} c/u</p>
+
+                      {item.notes && (
+                        <p className="text-[11px] text-amber-800 italic mt-0.5 line-clamp-1 bg-amber-50/70 px-1.5 py-0.5 rounded">
+                          Nota: {item.notes}
+                        </p>
+                      )}
+
+                      {/* Quantity + Remove */}
+                      <div className="flex items-center justify-between mt-2.5">
+                        <div className="flex items-center border border-stone-300 rounded-lg px-2 py-0.5 bg-stone-50 text-xs">
+                          <button
+                            onClick={() => updateQuantity(itemKey, -1)}
+                            className="font-bold px-1.5 text-stone-600 hover:text-black"
+                          >
+                            -
+                          </button>
+                          <span className="px-2 font-black text-stone-900">{item.quantity}</span>
+                          <button
+                            onClick={() => updateQuantity(itemKey, 1)}
+                            className="font-bold px-1.5 text-stone-600 hover:text-black"
+                          >
+                            +
+                          </button>
+                        </div>
+                        <button
+                          onClick={() => removeFromCart(itemKey)}
+                          className="text-xs text-rose-600 hover:text-rose-700 font-bold transition"
+                        >
+                          Eliminar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
+
+          {/* Drawer Footer */}
+          {items.length > 0 && (
+            <div className="p-4 bg-stone-50 border-t border-stone-200 space-y-3">
+              <div className="space-y-1.5 text-xs text-stone-600">
+                <div className="flex justify-between">
+                  <span>Subtotal comida y bebida:</span>
+                  <span className="font-bold text-stone-900">{formatPrice(totalAmount)}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span>Envío / Delivery:</span>
+                  <span className="text-amber-800 font-bold bg-amber-100/70 border border-amber-300/60 px-2 py-0.5 rounded text-[11px]">
+                    A cotización según ubicación
+                  </span>
+                </div>
+                <div className="flex justify-between text-sm sm:text-base font-bold text-stone-900 pt-2 border-t border-amber-900/10">
+                  <span className="font-display">SUBTOTAL PRODUCTOS:</span>
+                  <span className="text-orange-600 font-display font-bold">{formatPrice(totalAmount)}</span>
+                </div>
+                <p className="text-[10px] text-stone-500 italic text-right font-normal">
+                  * El costo de delivery se cotiza según tu ubicación de Google Maps
+                </p>
+              </div>
+
+              <div className="space-y-2 pt-1">
+                <button
+                  onClick={handleCheckout}
+                  className="w-full btn-vibrant-flame text-white font-bold py-3.5 px-4 rounded-2xl text-sm uppercase tracking-wider flex items-center justify-between cursor-pointer"
+                >
+                  <span className="font-display">Continuar Pedido</span>
+                  <div className="flex items-center space-x-1 font-display font-bold">
+                    <span>{formatPrice(totalAmount)}</span>
+                    <IconArrowRight className="w-4 h-4 ml-1" />
+                  </div>
+                </button>
+                <button
+                  onClick={clearCart}
+                  className="w-full text-center text-xs text-stone-400 hover:text-stone-600 py-1 font-semibold"
+                >
+                  Vaciar pedido
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

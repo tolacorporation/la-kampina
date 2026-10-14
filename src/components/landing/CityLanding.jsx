@@ -1,0 +1,235 @@
+import React, { useState } from 'react';
+import {
+  IconMapPin,
+  IconArrowRight,
+  IconScooter,
+  IconQrCode,
+} from '../common/Icons';
+import LocationModal from '../common/LocationModal';
+import { getRestaurantOpenStatus } from '../../data/restaurantInfo';
+
+export default function CityLanding({ onSelectStore }) {
+  const [isLocationOpen, setIsLocationOpen] = useState(false);
+  const status = getRestaurantOpenStatus();
+  return (
+    <div className="relative min-h-screen w-full bg-stone-950 text-white flex flex-col justify-between overflow-hidden select-none">
+      {/* 1. Fondo Cinematográfico Fotográfico con Movimiento Suave */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <img
+          src="/kampinafoto2.webp"
+          alt="Entorno campestre del Restaurante La Kampiña en Cochabamba"
+          width="1920"
+          height="1080"
+          fetchpriority="high"
+          decoding="async"
+          className="w-full h-full object-cover animate-kenburns-smooth filter brightness-[0.45] contrast-[1.1] saturate-[0.95]"
+        />
+        {/* Viñeta oscura cinematográfica para alto contraste y legibilidad WCAG AAA */}
+        <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/75 to-black/80" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(10,10,10,0.85)_80%)]" />
+      </div>
+
+      {/* 2. Enmarcado Natural Enriquecido (Capas botánicas con brisa suave) */}
+      {/* --- Esquina Superior Izquierda (Doble Capa con Profundidad) --- */}
+      <div className="absolute top-0 left-10 sm:left-16 md:left-24 pointer-events-none z-10 w-24 sm:w-36 md:w-44 max-w-[20vw] select-none" aria-hidden="true">
+        <img
+          src="/palmera-corner-tl.webp"
+          alt=""
+          width="366"
+          height="367"
+          loading="lazy"
+          decoding="async"
+          className="w-full h-auto object-contain animate-palm-canopy-l opacity-60 filter brightness-[0.7] drop-shadow-[0_6px_12px_rgba(0,0,0,0.8)]"
+        />
+      </div>
+      <div className="absolute top-0 left-0 pointer-events-none z-20 w-32 sm:w-48 md:w-56 lg:w-64 max-w-[28vw] select-none" aria-hidden="true">
+        <img
+          src="/palmera-corner-tl.webp"
+          alt=""
+          width="366"
+          height="367"
+          decoding="async"
+          className="w-full h-auto object-contain animate-palm-tl opacity-95 filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.95)]"
+        />
+      </div>
+
+      {/* --- Esquina Superior Derecha (Doble Capa con Profundidad) --- */}
+      <div className="absolute top-0 right-10 sm:right-16 md:right-24 pointer-events-none z-10 w-24 sm:w-36 md:w-44 max-w-[20vw] select-none flex justify-end" aria-hidden="true">
+        <img
+          src="/palmera-corner-tr.webp"
+          alt=""
+          width="366"
+          height="367"
+          loading="lazy"
+          decoding="async"
+          className="w-full h-auto object-contain animate-palm-canopy-r opacity-60 filter brightness-[0.7] drop-shadow-[0_6px_12px_rgba(0,0,0,0.8)]"
+        />
+      </div>
+      <div className="absolute top-0 right-0 pointer-events-none z-20 w-32 sm:w-48 md:w-56 lg:w-64 max-w-[28vw] select-none flex justify-end" aria-hidden="true">
+        <img
+          src="/palmera-corner-tr.webp"
+          alt=""
+          width="366"
+          height="367"
+          decoding="async"
+          className="w-full h-auto object-contain animate-palm-tr opacity-95 filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.95)]"
+        />
+      </div>
+
+      {/* --- Esquina Inferior Izquierda (Doble Capa) --- */}
+      <div className="absolute bottom-0 left-8 sm:left-14 pointer-events-none z-10 w-20 sm:w-32 md:w-36 max-w-[18vw] select-none flex items-end" aria-hidden="true">
+        <img
+          src="/palmera-corner-bl.webp"
+          alt=""
+          width="366"
+          height="367"
+          loading="lazy"
+          decoding="async"
+          className="w-full h-auto object-contain animate-palm-mid-l opacity-55 filter brightness-[0.7] drop-shadow-[0_-6px_12px_rgba(0,0,0,0.8)]"
+        />
+      </div>
+      <div className="absolute bottom-0 left-0 pointer-events-none z-20 w-28 sm:w-40 md:w-48 lg:w-52 max-w-[24vw] select-none flex items-end" aria-hidden="true">
+        <img
+          src="/palmera-corner-bl.webp"
+          alt=""
+          width="366"
+          height="367"
+          decoding="async"
+          className="w-full h-auto object-contain animate-palm-bl opacity-85 filter drop-shadow-[0_-10px_20px_rgba(0,0,0,0.9)]"
+        />
+      </div>
+
+      {/* --- Esquina Inferior Derecha (Doble Capa) --- */}
+      <div className="absolute bottom-0 right-8 sm:right-14 pointer-events-none z-10 w-20 sm:w-32 md:w-36 max-w-[18vw] select-none flex items-end justify-end" aria-hidden="true">
+        <img
+          src="/palmera-corner-br.webp"
+          alt=""
+          width="366"
+          height="367"
+          loading="lazy"
+          decoding="async"
+          className="w-full h-auto object-contain animate-palm-mid-r opacity-55 filter brightness-[0.7] drop-shadow-[0_-6px_12px_rgba(0,0,0,0.8)]"
+        />
+      </div>
+      <div className="absolute bottom-0 right-0 pointer-events-none z-20 w-28 sm:w-40 md:w-48 lg:w-52 max-w-[24vw] select-none flex items-end justify-end" aria-hidden="true">
+        <img
+          src="/palmera-corner-br.webp"
+          alt=""
+          width="366"
+          height="367"
+          decoding="async"
+          className="w-full h-auto object-contain animate-palm-br opacity-85 filter drop-shadow-[0_-10px_20px_rgba(0,0,0,0.9)]"
+        />
+      </div>
+
+      {/* 3. Header Minimalista & Discreto (Tipografía legible y accesible) */}
+      <header
+        role="banner"
+        className="relative z-30 pt-6 px-6 pt-[max(1.5rem,env(safe-area-inset-top))] flex flex-wrap items-center justify-between gap-3 max-w-6xl mx-auto w-full"
+      >
+        {/* Ubicación: Cochabamba, Bolivia (Interactivo para ver ubicación y mapas) */}
+        <button
+          type="button"
+          onClick={() => setIsLocationOpen(true)}
+          className="flex items-center space-x-2 text-xs sm:text-sm font-semibold text-stone-100 bg-stone-900/90 backdrop-blur-md px-4 py-2 rounded-full border border-stone-700/80 shadow-md transition hover:border-[#cb6115] hover:text-[#cb6115] cursor-pointer"
+          title="Ver ubicación en Google Maps / Apple Maps"
+        >
+          <IconMapPin className="w-4 h-4 text-[#cb6115]" aria-hidden="true" />
+          <span>Cochabamba, Bolivia</span>
+        </button>
+
+        {/* Cocina Criolla Tradicional (Alta legibilidad y contraste) */}
+        <div className="flex items-center space-x-2 text-xs sm:text-sm font-bold text-amber-200 bg-stone-900/90 backdrop-blur-md px-4 py-2 rounded-full border border-amber-500/30 shadow-md tracking-wide uppercase">
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-400" aria-hidden="true" />
+          <span>Cocina Criolla Tradicional</span>
+        </div>
+      </header>
+
+      {/* 4. Contenido Central Elegante (Jerarquía Gastronómica UI/UX Pro Max) */}
+      <main
+        role="main"
+        className="relative z-30 flex-1 flex flex-col items-center justify-center px-4 py-4 text-center max-w-xl mx-auto"
+      >
+        {/* Logotipo Oficial Premium Protagonista */}
+        <div className="mb-4 relative">
+          <img
+            src="/logokampina3.webp"
+            alt="La Kampiña - Restaurante Criollo y Casa de Campo"
+            width="240"
+            height="240"
+            fetchpriority="high"
+            decoding="async"
+            className="w-44 h-44 sm:w-56 sm:h-56 md:w-60 md:h-60 object-contain mx-auto filter drop-shadow-[0_15px_35px_rgba(0,0,0,0.95)] transition-transform duration-300 hover:scale-[1.02]"
+          />
+        </div>
+
+        {/* Kicker tipográfico gastronómico (Clash Display con sombra nítida de alto contraste) */}
+        <span className="inline-block text-sm sm:text-base md:text-lg font-display font-bold uppercase tracking-[0.24em] text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)] mb-8">
+          Sabor Tradicional
+        </span>
+
+        {/* Controles de Acción (Touch targets >= 48px, botón vibrante con reflejo) */}
+        <div className="space-y-4 w-full max-w-xs sm:max-w-sm flex flex-col items-center">
+          {/* Botón Principal (Vibrant Flame Gradient) */}
+          <button
+            type="button"
+            onClick={() => onSelectStore('cochabamba')}
+            aria-label="Explorar Menú y realizar pedidos en Cochabamba"
+            className="group relative w-full inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4.5 min-h-[54px] rounded-2xl btn-vibrant-flame text-white font-display font-bold text-base sm:text-lg uppercase tracking-wider cursor-pointer active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:outline-none focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
+          >
+            <span>Explorar Menú Y Pedidos</span>
+            <IconArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-200" aria-hidden="true" />
+          </button>
+
+          {/* Indicador Minimalista de Estado de Atención (Luz Verde / Roja) */}
+          <div className="inline-flex items-center justify-center gap-2.5 py-2 px-4.5 rounded-full bg-stone-900/80 backdrop-blur-md border border-stone-800 text-xs shadow-lg">
+            <span className="relative flex h-2.5 w-2.5">
+              {status.isOpen && (
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              )}
+              <span
+                className={`relative inline-flex rounded-full h-2.5 w-2.5 ${
+                  status.isOpen
+                    ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.9)]'
+                    : 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.9)]'
+                }`}
+              />
+            </span>
+            <span
+              className={`font-black uppercase tracking-wider text-[11px] ${
+                status.isOpen ? 'text-emerald-400' : 'text-rose-400'
+              }`}
+            >
+              {status.statusText}
+            </span>
+            <span className="text-stone-600 text-[10px]">•</span>
+            <span className="text-stone-300 text-xs font-semibold">
+              {status.detailText}
+            </span>
+          </div>
+        </div>
+      </main>
+
+      {/* 5. Footer con Métricas de Confianza (Legibilidad clara y balanceada) */}
+      <footer
+        role="contentinfo"
+        className="relative z-30 pb-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] px-4 text-center max-w-2xl mx-auto w-full"
+      >
+        <div className="flex flex-wrap items-center justify-center gap-3.5 sm:gap-6 text-xs sm:text-sm font-bold text-stone-100 bg-stone-900/90 backdrop-blur-md py-3 px-6 sm:px-8 rounded-full border border-stone-800 shadow-xl">
+          <div className="flex items-center space-x-2">
+            <IconScooter className="w-4 h-4 text-[#cb6115]" aria-hidden="true" />
+            <span>Delivery Cochabamba</span>
+          </div>
+          <span className="text-stone-500 hidden sm:inline" aria-hidden="true">•</span>
+          <div className="flex items-center space-x-2">
+            <IconQrCode className="w-4 h-4 text-[#cb6115]" aria-hidden="true" />
+            <span>Pago QR Simple</span>
+          </div>
+        </div>
+      </footer>
+
+      {/* Modal Interactivo de Ubicación & Mapas */}
+      <LocationModal isOpen={isLocationOpen} onClose={() => setIsLocationOpen(false)} />
+    </div>
+  );
+}
