@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCart } from '../../context/CartContext';
-import { IconShoppingBag, IconX, IconUtensils, IconCloche, IconArrowRight } from '../common/Icons';
+import { IconShoppingBag, IconX, IconUtensils, IconCloche, IconArrowRight, IconEmptyBag } from '../common/Icons';
 
 export default function CartDrawer() {
   const {
@@ -52,19 +52,20 @@ export default function CartDrawer() {
           {/* Drawer Body / Items List */}
           <div className="flex-1 overflow-y-auto p-4 divide-y divide-stone-100">
             {items.length === 0 ? (
-              <div className="h-full flex flex-col items-center justify-center text-center p-6 text-stone-500">
-                <div className="w-16 h-16 rounded-full bg-stone-100 flex items-center justify-center mb-3">
-                  <IconUtensils className="w-8 h-8 text-stone-400 stroke-[1.5]" />
+              <div className="h-full flex flex-col items-center justify-center text-center p-6 text-stone-500 my-auto">
+                {/* Contenedor del Icono con destello cálido de brasa */}
+                <div className="w-20 h-20 rounded-3xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-center mb-4 shadow-inner text-[#cb6115]">
+                  <IconEmptyBag className="w-10 h-10 stroke-[1.6]" />
                 </div>
-                <p className="font-black text-base text-stone-900">Tu bolsa está vacía</p>
-                <p className="text-xs text-stone-400 mt-1 max-w-xs leading-relaxed">
-                  Agrega charque, pique macho, chicharrón o bebidas criollas de La Kampiña.
+                <p className="font-display font-bold text-lg text-stone-900 uppercase tracking-tight">Tu bolsa está vacía</p>
+                <p className="text-xs text-stone-500 mt-1.5 max-w-xs leading-relaxed font-medium">
+                  Aún no has agregado platos. Explora nuestro charque crujiente, charkambre, pique macho o bebidas típicas.
                 </p>
                 <button
                   onClick={() => setIsCartOpen(false)}
-                  className="mt-6 bg-amber-500 hover:bg-amber-400 text-stone-950 text-xs font-black uppercase tracking-wider px-5 py-2.5 rounded-xl shadow transition"
+                  className="mt-6 bg-gradient-to-r from-[#cb6115] to-[#e67a28] hover:brightness-110 active:scale-95 text-white text-xs font-black uppercase tracking-wider px-6 py-3 rounded-xl shadow-md shadow-[#cb6115]/25 transition cursor-pointer"
                 >
-                  Explorar Menú
+                  Ver Menú de Platos →
                 </button>
               </div>
             ) : (
