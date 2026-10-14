@@ -1,37 +1,43 @@
 // Catálogo Oficial La Kampiña - Cochabamba
-// Premisas Oficiales del Menú:
-// • Charque: 2 Personas (DUO) 135 Bs / 3 Personas (TRIO) 155 Bs
-// • Matahambre: 2 Personas (DUO) 135 Bs / 3 Personas (TRIO) 155 Bs
-// • Charkambre: 2 Personas (DUO) 135 Bs / 3 Personas (TRIO) 155 Bs
-// • Pique Macho: 2 Personas (DUO) 135 Bs / 3 Personas (TRIO) 155 Bs
-// • Planchita de Bronce: 2 Personas (DUO) 135 Bs / 3 Personas (TRIO) 155 Bs
+// Premisas Oficiales del Menú (Opciones individualizadas para máxima transparencia):
+// • Charque: Dúo (2 Personas) 135 Bs / Trío (3 Personas) 155 Bs
+// • Matahambre: Dúo (2 Personas) 135 Bs / Trío (3 Personas) 155 Bs
+// • Charkambre: Dúo (2 Personas) 135 Bs / Trío (3 Personas) 155 Bs
+// • Pique Macho: Dúo (2 Personas) 135 Bs / Trío (3 Personas) 155 Bs
+// • Planchita de Bronce: Dúo (2 Personas) 135 Bs / Trío (3 Personas) 155 Bs
 // • Aji de Fideo (Solo Jueves): 45 Bs
 // • Bebidas:
-//   - Gaseosas: Popular 10 Bs, 2Lt 22 Bs
+//   - Gaseosa Popular: 10 Bs, Gaseosa 2 Litros: 22 Bs
 //   - Jugo del Sol 1 Litro: 18 Bs
 //   - Chicha Kulli: Jarrita 15 Bs, Jarra 30 Bs, Cantarito 60 Bs
-//   - Paceña: 23 Bs, 25 Bs
+//   - Paceña: 620ml 23 Bs, 710ml 25 Bs
 //   - Bicervecina: 20 Bs
-// Imágenes: null por el momento (listas para enlazar desde public/images/menu/)
 
 export const CATALOG_CATEGORIES = [
   {
     id: "cat-charque",
     name: "Charque",
     shortName: "Charque",
-    description: "Tradicional charque cochabambino con carne desmenuzada bien crocante, abundante mote blanco de maíz, huevo duro y queso criollo frito.",
-    image: null, // target: "/images/menu/charque/banner.webp"
+    description: "Tradicional charque cochabambino con carne crocante desmenuzada, abundante mote blanco, huevo duro y queso criollo frito.",
+    image: null,
     products: [
       {
-        id: "prod-charque",
-        name: "Charque Cochabambino",
-        description: "Carne de res deshidratada y frita a punto crocante, servida con abundante mote de maíz, huevo duro, queso criollo dorado y llajwa fresca de batán.",
-        image: null, // target: "/images/menu/charque/charque.webp"
+        id: "prod-charque-duo",
+        name: "Charque Cochabambino (2 Personas)",
+        shortName: "Charque Dúo",
+        description: "Carne de res deshidratada y frita a punto crocante para 2 personas, servida con abundante mote blanco de maíz, huevo duro, queso criollo dorado y llajwa fresca de batán.",
+        image: null,
         price: 135,
-        options: [
-          { id: "opt-charque-duo", name: "2 Personas (DUO)", price: 135 },
-          { id: "opt-charque-trio", name: "3 Personas (TRIO)", price: 155 },
-        ],
+        badge: "Dúo",
+      },
+      {
+        id: "prod-charque-trio",
+        name: "Charque Cochabambino (3 Personas)",
+        shortName: "Charque Trío",
+        description: "Generosa porción tradicional para 3 personas con ración extra de charque crocante, abundante mote blanco, huevos duros, queso criollo dorado y llajwa de batán.",
+        image: null,
+        price: 155,
+        badge: "Trío",
       },
     ],
   },
@@ -40,18 +46,25 @@ export const CATALOG_CATEGORIES = [
     name: "Matahambre",
     shortName: "Matahambre",
     description: "Tierno y jugoso corte de matahambre de res marinado al estilo criollo, sellado a la plancha con mote, papas doradas y queso criollo frito.",
-    image: null, // target: "/images/menu/matahambre/banner.webp"
+    image: null,
     products: [
       {
-        id: "prod-matahambre",
-        name: "Matahambre Criollo",
-        description: "Tierno corte de matahambre dorado a la plancha en su punto exacto de jugo, servido con mote tierno, papas doradas, queso criollo frito y llajwa recién molida.",
-        image: null, // target: "/images/menu/matahambre/matahambre.webp"
+        id: "prod-matahambre-duo",
+        name: "Matahambre Criollo (2 Personas)",
+        shortName: "Matahambre Dúo",
+        description: "Tierno corte de matahambre dorado a la plancha en su punto exacto de jugo para 2 personas, servido con mote tierno, papas doradas, queso criollo frito y llajwa recién molida.",
+        image: null,
         price: 135,
-        options: [
-          { id: "opt-matahambre-duo", name: "2 Personas (DUO)", price: 135 },
-          { id: "opt-matahambre-trio", name: "3 Personas (TRIO)", price: 155 },
-        ],
+        badge: "Dúo",
+      },
+      {
+        id: "prod-matahambre-trio",
+        name: "Matahambre Criollo (3 Personas)",
+        shortName: "Matahambre Trío",
+        description: "Generosa ración para 3 personas con doble corte de matahambre dorado en su jugo criollo, mote blanco, papas doradas, queso criollo frito y llajwa de batán.",
+        image: null,
+        price: 155,
+        badge: "Trío",
       },
     ],
   },
@@ -60,18 +73,25 @@ export const CATALOG_CATEGORIES = [
     name: "Charkambre",
     shortName: "Charkambre",
     description: "La creación insignia de La Kampiña: la combinación perfecta de Charque crocante desmenuzado y Matahambre tierno y jugoso en una sola gran fuente.",
-    image: null, // target: "/images/menu/charkambre/banner.webp"
+    image: null,
     products: [
       {
-        id: "prod-charkambre",
-        name: "Charkambre La Kampiña",
-        description: "Lo mejor de dos mundos en un solo plato: generosa porción de charque crujiente y matahambre tierno a la plancha, servidos con abundante mote blanco, huevo duro, queso criollo frito y llajwa de batán.",
-        image: null, // target: "/images/menu/charkambre/charkambre.webp"
+        id: "prod-charkambre-duo",
+        name: "Charkambre La Kampiña (2 Personas)",
+        shortName: "Charkambre Dúo",
+        description: "La combinación insignia para 2 personas: generosa porción de charque crujiente y matahambre tierno a la plancha, servidos con abundante mote blanco, huevo duro, queso criollo frito y llajwa de batán.",
+        image: null,
         price: 135,
-        options: [
-          { id: "opt-charkambre-duo", name: "2 Personas (DUO)", price: 135 },
-          { id: "opt-charkambre-trio", name: "3 Personas (TRIO)", price: 155 },
-        ],
+        badge: "Dúo",
+      },
+      {
+        id: "prod-charkambre-trio",
+        name: "Charkambre La Kampiña (3 Personas)",
+        shortName: "Charkambre Trío",
+        description: "Gran fuente para 3 personas con abundancia de charque crujiente y matahambre a la plancha, mote blanco, huevo duro, queso criollo frito y llajwa fresca.",
+        image: null,
+        price: 155,
+        badge: "Trío",
       },
     ],
   },
@@ -80,18 +100,25 @@ export const CATALOG_CATEGORIES = [
     name: "Pique Macho",
     shortName: "Pique Macho",
     description: "El clásico más abundante y tradicional de Cochabamba: jugoso lomo de res y salchichas sobre una montaña de papas fritas caseras, huevo duro, tomate, cebolla y locoto fresco.",
-    image: null, // target: "/images/menu/pique-macho/banner.webp"
+    image: null,
     products: [
       {
-        id: "prod-pique-macho",
-        name: "Pique Macho Tradicional",
-        description: "Cortes selectos de lomo de res salteados en su jugo criollo con salchichas, abundantes papas fritas caseras, gajos de huevo duro, cebolla en pluma, tomate y rodajas de locoto fresco.",
-        image: null, // target: "/images/menu/pique-macho/pique-macho.webp"
+        id: "prod-pique-duo",
+        name: "Pique Macho Tradicional (2 Personas)",
+        shortName: "Pique Dúo",
+        description: "Porción para 2 personas: cortes selectos de lomo de res salteados en su jugo criollo con salchichas, abundantes papas fritas caseras, gajos de huevo duro, cebolla en pluma, tomate y rodajas de locoto fresco.",
+        image: null,
         price: 135,
-        options: [
-          { id: "opt-pique-duo", name: "2 Personas (DUO)", price: 135 },
-          { id: "opt-pique-trio", name: "3 Personas (TRIO)", price: 155 },
-        ],
+        badge: "Dúo",
+      },
+      {
+        id: "prod-pique-trio",
+        name: "Pique Macho Tradicional (3 Personas)",
+        shortName: "Pique Trío",
+        description: "Montaña extra abundante para 3 personas: generosos cortes de lomo de res, salchichas, papas fritas caseras, huevo duro, cebolla, tomate y rodajas de locoto fresco.",
+        image: null,
+        price: 155,
+        badge: "Trío",
       },
     ],
   },
@@ -99,19 +126,26 @@ export const CATALOG_CATEGORIES = [
     id: "cat-planchita",
     name: "Planchita de Bronce",
     shortName: "Planchita de Bronce",
-    description: "Servida directamente en plancha de bronce caliente y humeante. Cortes mixtos de carne, chuleta, chorizo criollo, yucas doradas, plátano de freír y queso derretido.",
-    image: null, // target: "/images/menu/planchita/banner.webp"
+    description: "Servida directamente en plancha caliente. Cortes mixtos de carne, chuleta, chorizo criollo, yucas doradas, plátano de freír y queso derretido.",
+    image: null,
     products: [
       {
-        id: "prod-planchita",
-        name: "Planchita de Bronce Tradicional",
-        description: "Surtido caliente de lomo de res, chuleta jugosa de cerdo, chorizo parrillero, huevos fritos, yucas doradas crujientes, plátano dulce de freír y queso criollo derretido al calor del bronce.",
-        image: null, // target: "/images/menu/planchita/planchita.webp"
+        id: "prod-planchita-duo",
+        name: "Planchita de Bronce (2 Personas)",
+        shortName: "Planchita Dúo",
+        description: "Para 2 personas: surtido caliente de lomo de res, chuleta jugosa de cerdo, chorizo parrillero, huevos fritos, yucas doradas crujientes, plátano dulce de freír y queso criollo derretido.",
+        image: null,
         price: 135,
-        options: [
-          { id: "opt-planchita-duo", name: "2 Personas (DUO)", price: 135 },
-          { id: "opt-planchita-trio", name: "3 Personas (TRIO)", price: 155 },
-        ],
+        badge: "Dúo",
+      },
+      {
+        id: "prod-planchita-trio",
+        name: "Planchita de Bronce (3 Personas)",
+        shortName: "Planchita Trío",
+        description: "Gran ración para 3 personas: abundancia de lomo de res, chuletas de cerdo, chorizo parrillero, huevos fritos, yucas doradas, plátano de freír y queso derretido.",
+        image: null,
+        price: 155,
+        badge: "Trío",
       },
     ],
   },
@@ -122,13 +156,14 @@ export const CATALOG_CATEGORIES = [
     badge: "Solo Jueves",
     isThursdayOnly: true,
     description: "La clásica tradición valluna de los jueves: fideo tostado a punto cocido a fuego lento con ají rojo cochabambino, trozos de carne suave, papas imillas, arvejas tiernas y sarsa fresca.",
-    image: null, // target: "/images/menu/aji-fideo/banner.webp"
+    image: null,
     products: [
       {
         id: "prod-aji-fideo",
         name: "Ají de Fideo (Solo Jueves)",
+        shortName: "Ají de Fideo",
         description: "Receta tradicional cochabambina elaborada pacientemente con fideo tostado en sartén, pulpa de carne tierna en ají colorado, papas, arvejas tiernas y sarsa criolla. Disponible exclusivamente los días jueves.",
-        image: null, // target: "/images/menu/aji-fideo/aji-fideo.webp"
+        image: null,
         price: 45,
         badge: "Solo Jueves",
         isThursdayOnly: true,
@@ -140,55 +175,88 @@ export const CATALOG_CATEGORIES = [
     name: "Bebidas",
     shortName: "Bebidas",
     description: "Refrescos y jugos naturales, auténtica Chicha Kulli artesanal y cervezas tradicionales bien frías.",
-    image: null, // target: "/images/menu/bebidas/banner.webp"
+    image: null,
     products: [
       {
-        id: "prod-gaseosas",
-        name: "Gaseosas",
-        description: "Coca-Cola, Fanta o Sprite bien frías a elección.",
-        image: null, // target: "/images/menu/bebidas/gaseosas.webp"
+        id: "prod-gaseosa-pop",
+        name: "Gaseosa Popular (Personal)",
+        shortName: "Gaseosa Popular",
+        description: "Coca-Cola, Fanta o Sprite bien fría en formato personal.",
+        image: null,
         price: 10,
-        options: [
-          { id: "opt-gaseosa-pop", name: "Popular", price: 10 },
-          { id: "opt-gaseosa-2l", name: "2 Litros (2Lt)", price: 22 },
-        ],
+        badge: "Personal",
+      },
+      {
+        id: "prod-gaseosa-2l",
+        name: "Gaseosa 2 Litros (2Lt)",
+        shortName: "Gaseosa 2L",
+        description: "Coca-Cola, Fanta o Sprite de 2 Litros para compartir.",
+        image: null,
+        price: 22,
+        badge: "2 Litros",
       },
       {
         id: "prod-jugo-del-sol",
         name: "Jugo del Sol (1 Litro)",
+        shortName: "Jugo del Sol",
         description: "Jugo de fruta natural refrescante en presentación de 1 litro.",
-        image: null, // target: "/images/menu/bebidas/jugo-del-sol.webp"
+        image: null,
         price: 18,
+        badge: "1 Litro",
       },
       {
-        id: "prod-chicha-kulli",
-        name: "Chicha Kulli",
-        description: "Auténtica chicha morada cochabambina de maíz kulli fermentada artesanalmente, servida tradicionalmente en jarrita, jarra o cantarito.",
-        image: null, // target: "/images/menu/bebidas/chicha-kulli.webp"
+        id: "prod-chicha-jarrita",
+        name: "Chicha Kulli (Jarrita)",
+        shortName: "Chicha Jarrita",
+        description: "Auténtica chicha morada cochabambina de maíz kulli fermentada artesanalmente en jarrita personal.",
+        image: null,
         price: 15,
-        options: [
-          { id: "opt-chicha-jarrita", name: "Jarrita", price: 15 },
-          { id: "opt-chicha-jarra", name: "Jarra", price: 30 },
-          { id: "opt-chicha-cantarito", name: "Cantarito", price: 60 },
-        ],
+        badge: "Jarrita",
       },
       {
-        id: "prod-pacena",
-        name: "Paceña",
-        description: "Cerveza nacional clásica rubia bien fría.",
-        image: null, // target: "/images/menu/bebidas/pacena.webp"
+        id: "prod-chicha-jarra",
+        name: "Chicha Kulli (Jarra)",
+        shortName: "Chicha Jarra",
+        description: "Jarra artesanal de chicha morada kulli tradicional cochabambina para compartir.",
+        image: null,
+        price: 30,
+        badge: "Jarra",
+      },
+      {
+        id: "prod-chicha-cantarito",
+        name: "Chicha Kulli (Cantarito)",
+        shortName: "Chicha Cantarito",
+        description: "Cantarito tradicional de chicha kulli valluna para mesa compartida.",
+        image: null,
+        price: 60,
+        badge: "Cantarito",
+      },
+      {
+        id: "prod-pacena-620",
+        name: "Cerveza Paceña (620 ml)",
+        shortName: "Paceña 620ml",
+        description: "Cerveza Paceña clásica rubia en botella de 620 ml bien fría.",
+        image: null,
         price: 23,
-        options: [
-          { id: "opt-pacena-620", name: "Botella 620 ml", price: 23 },
-          { id: "opt-pacena-710", name: "Botella 710 ml", price: 25 },
-        ],
+        badge: "620 ml",
+      },
+      {
+        id: "prod-pacena-710",
+        name: "Cerveza Paceña (710 ml)",
+        shortName: "Paceña 710ml",
+        description: "Cerveza Paceña clásica rubia en botella de 710 ml bien fría.",
+        image: null,
+        price: 25,
+        badge: "710 ml",
       },
       {
         id: "prod-bicervecina",
-        name: "Bicervecina",
-        description: "Cerveza negra dulce tradicional y malteada bien fría.",
-        image: null, // target: "/images/menu/bebidas/bicervecina.webp"
+        name: "Bicervecina Tradicional",
+        shortName: "Bicervecina",
+        description: "Cerveza negra dulce tradicional y malteada bien fría en botella.",
+        image: null,
         price: 20,
+        badge: "Botella",
       },
     ],
   },

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useCart } from '../../context/CartContext';
 import {
   IconMeat,
@@ -51,6 +51,7 @@ function getDishGraphic(name = '') {
 
 export default function ProductCard({ product }) {
   const { setSelectedProduct, addToCart, formatPrice } = useCart();
+  const [justAdded, setJustAdded] = useState(false);
   const hasOptions = Array.isArray(product.options) && product.options.length > 0;
 
   const handleActionClick = (e) => {
@@ -59,6 +60,8 @@ export default function ProductCard({ product }) {
       setSelectedProduct(product);
     } else {
       addToCart(product, 1, null, '');
+      setJustAdded(true);
+      setTimeout(() => setJustAdded(false), 1200);
     }
   };
 
@@ -69,13 +72,13 @@ export default function ProductCard({ product }) {
   return (
     <div
       onClick={() => setSelectedProduct(product)}
-      className="relative liquid-glass-card rounded-3xl p-3 sm:p-3.5 hover:shadow-[0_20px_45px_-8px_rgba(203,97,21,0.22)] hover:border-[#cb6115]/50 transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer group hover:-translate-y-1.5 specular-highlight"
+      className="relative bg-stone-900/85 backdrop-blur-xl rounded-3xl p-3 sm:p-3.5 border border-white/15 hover:border-amber-500/60 shadow-[0_12px_32px_rgba(0,0,0,0.55)] hover:shadow-[0_18px_40px_rgba(203,97,21,0.25)] transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer group hover:-translate-y-1.5"
     >
-      {/* Reflejo de luz superior tipo cristal líquido */}
-      <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent opacity-90 pointer-events-none" />
+      {/* Reflejo de luz superior tipo cristal */}
+      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
 
       {/* Product Image / Gastro-Lens Showcase */}
-      <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-gradient-to-b from-stone-900 via-stone-950 to-stone-900 border border-white/10 shadow-inner flex items-center justify-center">
+      <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-gradient-to-b from-stone-950/80 via-stone-950 to-stone-950/90 border border-white/10 shadow-inner flex items-center justify-center">
         {/* Glow cálido ambiental detrás del elemento */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_45%,rgba(203,97,21,0.32)_0%,transparent_70%)] pointer-events-none" />
 
@@ -100,49 +103,48 @@ export default function ProductCard({ product }) {
 
         {/* Badges Flotantes de Cristal */}
         {product.badge && (
-          <span className="absolute top-2.5 left-2.5 z-20 bg-amber-400 text-stone-950 text-[11px] font-bold uppercase tracking-wider px-3 py-0.5 rounded-full shadow-md border border-white/30">
+          <span
+            className={`absolute top-2.5 left-2.5 z-20 text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-md border ${
+              product.badge.toLowerCase().includes('trío') || product.badge.toLowerCase().includes('trio')
+                ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-stone-950 border-white/40'
+                : 'bg-amber-400 text-stone-950 border-white/30'
+            }`}
+          >
             {product.badge}
-          </span>
-        )}
-
-        {hasOptions && (
-          <span className="absolute top-2.5 right-2.5 z-20 bg-stone-950/85 backdrop-blur-md text-amber-300 border border-amber-400/40 text-[11px] font-bold uppercase tracking-wider px-3 py-0.5 rounded-full shadow-md">
-            Dúo / Trío
           </span>
         )}
       </div>
 
-      {/* Info & Actions */}
-      <div className="pt-3.5 pb-1 px-1 flex flex-col flex-1 justify-between">
+      {/* Info & Actions (Limpio, directo y con opciones individualizadas a primera vista) */}
+      <div className="pt-3 pb-0.5 px-0.5 flex flex-col flex-1 justify-between">
         <div>
-          <h3 className="font-display font-bold text-sm md:text-base text-stone-900 uppercase tracking-tight line-clamp-2 leading-snug group-hover:text-orange-600 transition-colors duration-200">
+          <h3 className="font-display font-bold text-sm md:text-base text-white tracking-[0.025em] line-clamp-2 leading-relaxed group-hover:text-amber-300 transition-colors duration-200">
             {product.name}
           </h3>
-          {product.description && (
-            <p className="text-xs text-stone-600 mt-1 line-clamp-2 leading-relaxed font-normal">
-              {product.description}
-            </p>
-          )}
         </div>
 
-        <div className="mt-4 pt-2.5 border-t border-amber-900/10 flex items-center justify-between">
+        <div className="mt-3.5 pt-2.5 border-t border-white/10 flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="text-[11px] uppercase font-bold text-stone-600 tracking-wider">
-              {hasOptions ? 'Desde' : 'Precio'}
+            <span className="text-[10px] uppercase font-bold text-stone-300 tracking-wider">
+              Precio
             </span>
-            <span className="text-sm md:text-base font-display font-bold text-stone-950 tracking-tight">
+            <span className="text-base md:text-lg font-display font-extrabold text-amber-400 tracking-normal drop-shadow-sm">
               {displayPrice.replace('Desde ', '')}
             </span>
           </div>
 
           <button
             onClick={handleActionClick}
-            className="btn-vibrant-flame text-white text-xs font-bold uppercase tracking-wider px-3.5 sm:px-4 py-2 rounded-xl flex items-center space-x-1.5 cursor-pointer"
+            className={`text-white text-xs font-bold uppercase tracking-wider px-3.5 sm:px-4 py-2 rounded-xl flex items-center space-x-1.5 shadow-md transition-all duration-200 cursor-pointer ${
+              justAdded
+                ? 'bg-emerald-600 shadow-emerald-600/40 scale-105'
+                : 'btn-vibrant-flame shadow-[#cb6115]/40 border border-amber-500/20 active:scale-95'
+            }`}
           >
-            {hasOptions ? (
+            {justAdded ? (
               <>
-                <IconSliders className="w-3.5 h-3.5" />
-                <span>Opciones</span>
+                <span className="text-sm font-black leading-none">✓</span>
+                <span>Listo</span>
               </>
             ) : (
               <>

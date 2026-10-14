@@ -27,8 +27,8 @@ export default function CartDrawer() {
     <div className="fixed inset-0 z-50 overflow-hidden bg-black/75 backdrop-blur-sm animate-fade-in">
       <div className="absolute inset-0" onClick={() => setIsCartOpen(false)} />
 
-      <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
-        <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col">
+      <div className="fixed inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10">
+        <div className="w-screen max-w-full sm:max-w-md bg-white shadow-2xl flex flex-col h-full max-h-[100dvh]">
           {/* Drawer Header */}
           <div className="p-4 bg-stone-950 text-white flex items-center justify-between border-b border-stone-800">
             <div className="flex items-center space-x-2.5">
@@ -57,7 +57,7 @@ export default function CartDrawer() {
                 <div className="w-20 h-20 rounded-3xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-center mb-4 shadow-inner text-[#cb6115]">
                   <IconEmptyBag className="w-10 h-10 stroke-[1.6]" />
                 </div>
-                <p className="font-display font-bold text-lg text-stone-900 uppercase tracking-tight">Tu bolsa está vacía</p>
+                <p className="font-display font-bold text-lg text-stone-900 tracking-wide uppercase">Tu bolsa está vacía</p>
                 <p className="text-xs text-stone-500 mt-1.5 max-w-xs leading-relaxed font-medium">
                   Aún no has agregado platos. Explora nuestro charque crujiente, charkambre, pique macho o bebidas típicas.
                 </p>
@@ -91,7 +91,7 @@ export default function CartDrawer() {
                     {/* Details */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between">
-                        <h4 className="font-black text-xs md:text-sm text-stone-900 truncate uppercase">
+                        <h4 className="font-bold text-xs md:text-sm text-stone-900 truncate tracking-[0.02em]">
                           {item.product?.name}
                         </h4>
                         <span className="text-xs md:text-sm font-black text-stone-900 ml-2 whitespace-nowrap">

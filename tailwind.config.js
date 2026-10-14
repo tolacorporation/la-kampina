@@ -46,9 +46,9 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Satoshi', 'system-ui', '-apple-system', 'sans-serif'],
-        display: ['Clash Display', 'Cabinet Grotesk', 'sans-serif'],
-        artisanal: ['Cabinet Grotesk', 'sans-serif'],
+        sans: ['Switzer', 'Satoshi', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['General Sans', 'Switzer', 'system-ui', 'sans-serif'],
+        artisanal: ['General Sans', 'sans-serif'],
       },
     },
   },

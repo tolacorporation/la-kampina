@@ -12,7 +12,7 @@ export default function CityLanding({ onSelectStore }) {
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const status = getRestaurantOpenStatus();
   return (
-    <div className="relative min-h-screen w-full bg-stone-950 text-white flex flex-col justify-between overflow-hidden select-none">
+    <div className="relative h-screen h-[100dvh] max-h-[100dvh] w-full bg-stone-950 text-white flex flex-col justify-between overflow-hidden select-none">
       {/* 1. Fondo Cinematográfico Fotográfico con Movimiento Suave */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <img
@@ -122,36 +122,30 @@ export default function CityLanding({ onSelectStore }) {
         />
       </div>
 
-      {/* 3. Header Minimalista & Discreto (Tipografía legible y accesible) */}
+      {/* 3. Header Minimalista & Discreto (Ubicación Interactiva) */}
       <header
         role="banner"
-        className="relative z-30 pt-6 px-6 pt-[max(1.5rem,env(safe-area-inset-top))] flex flex-wrap items-center justify-between gap-3 max-w-6xl mx-auto w-full"
+        className="relative z-30 pt-3 sm:pt-6 px-4 sm:px-6 pt-[max(0.75rem,env(safe-area-inset-top))] flex items-center justify-center sm:justify-start max-w-6xl mx-auto w-full shrink-0"
       >
         {/* Ubicación: Cochabamba, Bolivia (Interactivo para ver ubicación y mapas) */}
         <button
           type="button"
           onClick={() => setIsLocationOpen(true)}
-          className="flex items-center space-x-2 text-xs sm:text-sm font-semibold text-stone-100 bg-stone-900/90 backdrop-blur-md px-4 py-2 rounded-full border border-stone-700/80 shadow-md transition hover:border-[#cb6115] hover:text-[#cb6115] cursor-pointer"
+          className="flex items-center space-x-2 text-xs sm:text-sm font-semibold text-stone-100 bg-stone-900/90 backdrop-blur-md px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full border border-stone-700/80 shadow-md transition hover:border-[#cb6115] hover:text-[#cb6115] cursor-pointer"
           title="Ver ubicación en Google Maps / Apple Maps"
         >
-          <IconMapPin className="w-4 h-4 text-[#cb6115]" aria-hidden="true" />
+          <IconMapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#cb6115]" aria-hidden="true" />
           <span>Cochabamba, Bolivia</span>
         </button>
-
-        {/* Cocina Criolla Tradicional (Alta legibilidad y contraste) */}
-        <div className="flex items-center space-x-2 text-xs sm:text-sm font-bold text-amber-200 bg-stone-900/90 backdrop-blur-md px-4 py-2 rounded-full border border-amber-500/30 shadow-md tracking-wide uppercase">
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-400" aria-hidden="true" />
-          <span>Cocina Criolla Tradicional</span>
-        </div>
       </header>
 
-      {/* 4. Contenido Central Elegante (Jerarquía Gastronómica UI/UX Pro Max) */}
+      {/* 4. Contenido Central Proporcional y Dinámico (Sin desbordes ni scroll) */}
       <main
         role="main"
-        className="relative z-30 flex-1 flex flex-col items-center justify-center px-4 py-4 text-center max-w-xl mx-auto"
+        className="relative z-30 flex-1 flex flex-col items-center justify-center px-4 py-1 sm:py-4 text-center max-w-xl mx-auto min-h-0 w-full"
       >
-        {/* Logotipo Oficial Premium Protagonista */}
-        <div className="mb-4 relative">
+        {/* Logotipo Oficial Adaptable por Altura de Pantalla */}
+        <div className="mb-2 sm:mb-4 relative shrink-0">
           <img
             src="/logokampina3.webp"
             alt="La Kampiña - Restaurante Criollo y Casa de Campo"
@@ -159,36 +153,36 @@ export default function CityLanding({ onSelectStore }) {
             height="240"
             fetchpriority="high"
             decoding="async"
-            className="w-44 h-44 sm:w-56 sm:h-56 md:w-60 md:h-60 object-contain mx-auto filter drop-shadow-[0_15px_35px_rgba(0,0,0,0.95)] transition-transform duration-300 hover:scale-[1.02]"
+            className="w-32 h-32 sm:w-52 sm:h-52 md:w-60 md:h-60 max-h-[22vh] sm:max-h-[30vh] object-contain mx-auto filter drop-shadow-[0_15px_35px_rgba(0,0,0,0.95)] transition-transform duration-300 hover:scale-[1.02]"
           />
         </div>
 
-        {/* Kicker tipográfico gastronómico (Clash Display con sombra nítida de alto contraste) */}
-        <span className="inline-block text-sm sm:text-base md:text-lg font-display font-bold uppercase tracking-[0.24em] text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)] mb-8">
+        {/* Kicker tipográfico gastronómico */}
+        <span className="inline-block text-xs sm:text-base md:text-lg font-display font-bold uppercase tracking-[0.2em] sm:tracking-[0.24em] text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)] mb-3 sm:mb-6 shrink-0">
           Sabor Tradicional
         </span>
 
-        {/* Controles de Acción (Touch targets >= 48px, botón vibrante con reflejo) */}
-        <div className="space-y-4 w-full max-w-xs sm:max-w-sm flex flex-col items-center">
+        {/* Controles de Acción (Touch targets accesibles) */}
+        <div className="space-y-2.5 sm:space-y-4 w-full max-w-xs sm:max-w-sm flex flex-col items-center shrink-0">
           {/* Botón Principal (Vibrant Flame Gradient) */}
           <button
             type="button"
             onClick={() => onSelectStore('cochabamba')}
             aria-label="Explorar Menú y realizar pedidos en Cochabamba"
-            className="group relative w-full inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4.5 min-h-[54px] rounded-2xl btn-vibrant-flame text-white font-display font-bold text-base sm:text-lg uppercase tracking-wider cursor-pointer active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:outline-none focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
+            className="group relative w-full inline-flex items-center justify-center gap-2.5 sm:gap-3 px-6 sm:px-10 py-3.5 sm:py-4.5 min-h-[48px] sm:min-h-[54px] rounded-2xl btn-vibrant-flame text-white font-display font-bold text-sm sm:text-lg uppercase tracking-wider cursor-pointer active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:outline-none focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
           >
             <span>Explorar Menú Y Pedidos</span>
-            <IconArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-200" aria-hidden="true" />
+            <IconArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1.5 transition-transform duration-200" aria-hidden="true" />
           </button>
 
           {/* Indicador Minimalista de Estado de Atención (Luz Verde / Roja) */}
-          <div className="inline-flex items-center justify-center gap-2.5 py-2 px-4.5 rounded-full bg-stone-900/80 backdrop-blur-md border border-stone-800 text-xs shadow-lg">
-            <span className="relative flex h-2.5 w-2.5">
+          <div className="inline-flex items-center justify-center gap-2 py-1.5 sm:py-2 px-3.5 sm:px-4.5 rounded-full bg-stone-900/80 backdrop-blur-md border border-stone-800 text-[10px] sm:text-xs shadow-lg">
+            <span className="relative flex h-2 sm:h-2.5 w-2 sm:w-2.5">
               {status.isOpen && (
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
               )}
               <span
-                className={`relative inline-flex rounded-full h-2.5 w-2.5 ${
+                className={`relative inline-flex rounded-full h-2 sm:h-2.5 w-2 sm:w-2.5 ${
                   status.isOpen
                     ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.9)]'
                     : 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.9)]'
@@ -196,33 +190,33 @@ export default function CityLanding({ onSelectStore }) {
               />
             </span>
             <span
-              className={`font-black uppercase tracking-wider text-[11px] ${
+              className={`font-black uppercase tracking-wider text-[10px] sm:text-[11px] ${
                 status.isOpen ? 'text-emerald-400' : 'text-rose-400'
               }`}
             >
               {status.statusText}
             </span>
             <span className="text-stone-600 text-[10px]">•</span>
-            <span className="text-stone-300 text-xs font-semibold">
+            <span className="text-stone-300 text-[11px] sm:text-xs font-semibold">
               {status.detailText}
             </span>
           </div>
         </div>
       </main>
 
-      {/* 5. Footer con Métricas de Confianza (Legibilidad clara y balanceada) */}
+      {/* 5. Footer con Métricas de Confianza (Totalmente contenido y sin desbordes) */}
       <footer
         role="contentinfo"
-        className="relative z-30 pb-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] px-4 text-center max-w-2xl mx-auto w-full"
+        className="relative z-30 pb-4 sm:pb-6 pb-[max(1rem,calc(env(safe-area-inset-bottom)+0.5rem))] px-4 text-center max-w-2xl mx-auto w-full shrink-0"
       >
-        <div className="flex flex-wrap items-center justify-center gap-3.5 sm:gap-6 text-xs sm:text-sm font-bold text-stone-100 bg-stone-900/90 backdrop-blur-md py-3 px-6 sm:px-8 rounded-full border border-stone-800 shadow-xl">
-          <div className="flex items-center space-x-2">
-            <IconScooter className="w-4 h-4 text-[#cb6115]" aria-hidden="true" />
+        <div className="inline-flex items-center justify-center gap-2.5 sm:gap-6 text-[10px] sm:text-sm font-bold text-stone-100 bg-stone-900/90 backdrop-blur-md py-2 sm:py-3 px-4 sm:px-8 rounded-full border border-stone-800 shadow-xl whitespace-nowrap">
+          <div className="flex items-center space-x-1.5 sm:space-x-2">
+            <IconScooter className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#cb6115]" aria-hidden="true" />
             <span>Delivery Cochabamba</span>
           </div>
-          <span className="text-stone-500 hidden sm:inline" aria-hidden="true">•</span>
-          <div className="flex items-center space-x-2">
-            <IconQrCode className="w-4 h-4 text-[#cb6115]" aria-hidden="true" />
+          <span className="text-stone-500" aria-hidden="true">•</span>
+          <div className="flex items-center space-x-1.5 sm:space-x-2">
+            <IconQrCode className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#cb6115]" aria-hidden="true" />
             <span>Pago QR Simple</span>
           </div>
         </div>

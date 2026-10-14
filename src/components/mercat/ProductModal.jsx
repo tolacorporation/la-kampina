@@ -129,7 +129,7 @@ export default function ProductModal() {
         <div className="p-6 overflow-y-auto flex-1 space-y-5">
           <div>
             <div className="flex items-start justify-between">
-              <h2 className="text-xl md:text-2xl font-display font-bold text-stone-900 uppercase tracking-tight">
+              <h2 className="text-xl md:text-2xl font-display font-bold text-stone-900 tracking-[0.02em] leading-snug">
                 {selectedProduct.name}
               </h2>
               <span className="text-xl md:text-2xl font-display font-bold text-orange-600 ml-3 whitespace-nowrap">
@@ -182,7 +182,7 @@ export default function ProductModal() {
               placeholder="Ej: Llajwa bien picante, sin cebolla en la sarsa, etc."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full border border-stone-300 rounded-xl p-3 text-xs md:text-sm focus:outline-none focus:border-[#cb6115] focus:ring-1 focus:ring-[#cb6115]"
+              className="w-full bg-white text-stone-950 font-medium placeholder:text-stone-400 border border-stone-300 rounded-xl p-3 text-xs md:text-sm focus:outline-none focus:border-[#cb6115] focus:ring-1 focus:ring-[#cb6115] shadow-sm"
             />
           </div>
         </div>

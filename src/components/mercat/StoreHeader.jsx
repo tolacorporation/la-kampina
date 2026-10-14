@@ -111,7 +111,7 @@ export default function StoreHeader({ onBackToLanding }) {
               </div>
               <div className="text-left hidden xs:block">
                 <span
-                  className={`font-display font-bold tracking-tight text-white group-hover:text-amber-300 transition-colors duration-200 block leading-tight ${
+                  className={`font-display font-bold tracking-wider text-white group-hover:text-amber-300 transition-colors duration-200 block leading-tight ${
                     isScrolled ? 'text-xs sm:text-sm' : 'text-sm sm:text-base'
                   }`}
                 >
