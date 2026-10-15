@@ -37,6 +37,7 @@ export function CartProvider({ children }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState('cat-charque');
+  const [zoomedImage, setZoomedImage] = useState(null);
 
   // Sincronización automática con localStorage
   useEffect(() => {
@@ -146,6 +147,8 @@ export function CartProvider({ children }) {
         setIsSearchOpen,
         activeCategory,
         setActiveCategory,
+        zoomedImage,
+        setZoomedImage,
       }}
     >
       {children}

@@ -8,6 +8,7 @@ import {
   IconUtensils,
   IconSliders,
   IconPlus,
+  IconZoomIn,
 } from '../common/Icons';
 
 function getDishGraphic(name = '') {
@@ -50,7 +51,7 @@ function getDishGraphic(name = '') {
 }
 
 export default function ProductCard({ product }) {
-  const { setSelectedProduct, addToCart, formatPrice } = useCart();
+  const { setSelectedProduct, addToCart, formatPrice, setZoomedImage } = useCart();
   const [justAdded, setJustAdded] = useState(false);
   const hasOptions = Array.isArray(product.options) && product.options.length > 0;
 
@@ -90,14 +91,11 @@ export default function ProductCard({ product }) {
             className="w-full h-full object-cover group-hover:scale-105 transition duration-300 relative z-10"
           />
         ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center text-stone-200 p-4 relative z-10 select-none">
+          <div className="w-full h-full flex items-center justify-center text-stone-200 p-4 relative z-10 select-none">
             {/* Pedestal de Cristal Líquido Flotante */}
             <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_10px_25px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.4)] flex items-center justify-center group-hover:scale-110 group-hover:rotate-2 transition-all duration-300">
               {getDishGraphic(product.name)}
             </div>
-            <span className="text-xs font-mono uppercase tracking-[0.2em] text-amber-200/90 mt-2.5">
-              La Kampiña VIP
-            </span>
           </div>
         )}
 
@@ -105,13 +103,35 @@ export default function ProductCard({ product }) {
         {product.badge && (
           <span
             className={`absolute top-2.5 left-2.5 z-20 text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-md border ${
-              product.badge.toLowerCase().includes('trío') || product.badge.toLowerCase().includes('trio')
+              product.badge.toLowerCase().includes('trío') || product.badge.toLowerCase().includes('trio') || product.badge.includes('3')
                 ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-stone-950 border-white/40'
                 : 'bg-amber-400 text-stone-950 border-white/30'
             }`}
           >
             {product.badge}
           </span>
+        )}
+
+        {/* Botón flotante para ver foto en grande / zoom */}
+        {product.image && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setZoomedImage({
+                src: product.image,
+                alt: product.name,
+                title: product.name,
+                badge: product.badge,
+                description: product.description,
+              });
+            }}
+            className="absolute bottom-2.5 right-2.5 z-20 w-8 h-8 rounded-full bg-black/65 hover:bg-black/90 text-amber-300 hover:text-white flex items-center justify-center backdrop-blur-md shadow-md border border-white/20 transition-all duration-200 group-hover:scale-105 hover:!scale-115"
+            title="Ver plato en grande y hacer zoom"
+            aria-label="Ver plato en grande y hacer zoom"
+          >
+            <IconZoomIn className="w-4 h-4" />
+          </button>
         )}
       </div>
 
@@ -124,10 +144,7 @@ export default function ProductCard({ product }) {
         </div>
 
         <div className="mt-3.5 pt-2.5 border-t border-white/10 flex items-center justify-between">
-          <div className="flex flex-col">
-            <span className="text-[10px] uppercase font-bold text-stone-300 tracking-wider">
-              Precio
-            </span>
+          <div className="flex items-center">
             <span className="text-base md:text-lg font-display font-extrabold text-amber-400 tracking-normal drop-shadow-sm">
               {displayPrice.replace('Desde ', '')}
             </span>

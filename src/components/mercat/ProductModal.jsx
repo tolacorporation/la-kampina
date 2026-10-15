@@ -7,6 +7,7 @@ import {
   IconDessert,
   IconUtensils,
   IconX,
+  IconZoomIn,
 } from '../common/Icons';
 
 function getDishGraphic(name = '') {
@@ -49,7 +50,7 @@ function getDishGraphic(name = '') {
 }
 
 export default function ProductModal() {
-  const { selectedProduct, setSelectedProduct, addToCart, formatPrice, parsePrice } = useCart();
+  const { selectedProduct, setSelectedProduct, addToCart, formatPrice, parsePrice, setZoomedImage } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [selectedOption, setSelectedOption] = useState(null);
   const [notes, setNotes] = useState('');
@@ -91,34 +92,75 @@ export default function ProductModal() {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header / Image banner */}
-        <div className="relative bg-stone-900 aspect-video w-full overflow-hidden flex items-center justify-center">
+        <div
+          className={`relative bg-stone-900 aspect-video w-full overflow-hidden flex items-center justify-center ${
+            selectedProduct.image ? 'cursor-pointer group' : ''
+          }`}
+          onClick={() => {
+            if (selectedProduct.image) {
+              setZoomedImage({
+                src: selectedProduct.image,
+                alt: selectedProduct.name,
+                title: selectedProduct.name,
+                badge: selectedProduct.badge,
+                description: selectedProduct.description,
+              });
+            }
+          }}
+        >
           {selectedProduct.image ? (
-            <img
-              src={selectedProduct.image}
-              alt={selectedProduct.name}
-              className="w-full h-full object-cover"
-            />
+            <>
+              <img
+                src={selectedProduct.image}
+                alt={selectedProduct.name}
+                className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-950/70 via-transparent to-black/30 pointer-events-none" />
+
+              {/* Botón flotante para ver en grande / zoom */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setZoomedImage({
+                    src: selectedProduct.image,
+                    alt: selectedProduct.name,
+                    title: selectedProduct.name,
+                    badge: selectedProduct.badge,
+                    description: selectedProduct.description,
+                  });
+                }}
+                className="absolute bottom-3 right-3 z-20 flex items-center space-x-1.5 bg-black/70 hover:bg-black/90 text-white text-[11px] font-bold px-3 py-1.5 rounded-full backdrop-blur-md border border-white/25 shadow-xl transition-all duration-200 group-hover:scale-105"
+                title="Ver plato en grande y hacer zoom"
+              >
+                <IconZoomIn className="w-3.5 h-3.5 text-amber-400" />
+                <span>Ver en grande / Zoom</span>
+              </button>
+            </>
           ) : (
             <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-stone-900 via-stone-950 to-black text-stone-200 p-6 relative">
               {/* Glow spotlight */}
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(203,97,21,0.32),transparent_70%)] pointer-events-none" />
 
-              <div className="w-20 h-20 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center shadow-2xl mb-3 relative z-10">
+              <div className="w-20 h-20 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center shadow-2xl relative z-10">
                 {getDishGraphic(selectedProduct.name)}
               </div>
-              <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-amber-200/90 relative z-10">
-                La Kampiña VIP • Cochabamba
-              </span>
-              {selectedProduct.badge && (
-                <span className="absolute top-4 left-4 z-20 bg-gradient-to-r from-[#cb6115] to-[#e67a28] text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow-md shadow-[#cb6115]/30 border border-white/30 backdrop-blur-sm">
-                  {selectedProduct.badge}
-                </span>
-              )}
             </div>
           )}
+
+          {/* Badge Flotante */}
+          {selectedProduct.badge && (
+            <span className="absolute top-4 left-4 z-20 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow-lg border border-white/30 backdrop-blur-md">
+              {selectedProduct.badge}
+            </span>
+          )}
+
           <button
-            onClick={() => setSelectedProduct(null)}
-            className="absolute top-4 right-4 z-20 bg-stone-900/80 hover:bg-stone-900 text-stone-300 hover:text-white w-9 h-9 rounded-full flex items-center justify-center transition shadow-lg border border-white/10"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedProduct(null);
+            }}
+            className="absolute top-4 right-4 z-20 bg-black/60 hover:bg-black/85 text-white w-9 h-9 rounded-full flex items-center justify-center transition shadow-lg border border-white/20 backdrop-blur-sm"
             aria-label="Cerrar ventana"
           >
             <IconX className="w-4 h-4" />

@@ -142,7 +142,7 @@ export default function StoreCatalog() {
               alt="La Kampiña"
               className="h-8 w-auto object-contain filter drop-shadow"
             />
-            <span className="font-black text-base uppercase tracking-wider text-stone-900">La Kampiña VIP</span>
+            <span className="font-black text-base uppercase tracking-wider text-stone-900">La Kampiña</span>
           </div>
           <p className="font-bold text-stone-700 text-xs sm:text-sm">Tradición, Sabor & Abundancia Cochabambina</p>
           <button

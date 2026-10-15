@@ -119,7 +119,7 @@ export default function StoreHeader({ onBackToLanding }) {
                 </span>
                 {!isScrolled && (
                   <p className="text-[8px] sm:text-[9px] text-amber-400 uppercase tracking-widest font-bold hidden md:block">
-                    Sabor Cochabambino • VIP
+                    Cochabamba • Bolivia
                   </p>
                 )}
               </div>

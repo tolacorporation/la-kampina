@@ -460,18 +460,18 @@ export default function CheckoutModal() {
 
               {/* Breakdown */}
               <div className="bg-stone-50 p-3.5 rounded-2xl border border-stone-200 space-y-1 text-xs">
-                <div className="flex justify-between text-stone-600">
-                  <span>Subtotal Platos:</span>
+                <div className="flex justify-between text-stone-700">
+                  <span>Productos:</span>
                   <span className="font-bold text-stone-900">{formatPrice(subtotal)}</span>
                 </div>
-                <div className="flex justify-between items-center text-stone-600">
-                  <span>Costo de Delivery:</span>
+                <div className="flex justify-between items-center text-stone-700">
+                  <span>Delivery:</span>
                   <span className="font-bold text-amber-800 bg-amber-100/70 border border-amber-300/60 px-2 py-0.5 rounded text-[11px]">
                     {deliveryType === 'delivery' ? 'Pendiente a cotización' : '0 Bs (Retiro en local)'}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm sm:text-base font-bold text-stone-900 pt-1.5 border-t border-stone-200">
-                  <span className="font-display">TOTAL PRODUCTOS:</span>
+                  <span className="font-display">TOTAL:</span>
                   <span className="text-orange-600 font-display font-bold">{formatPrice(subtotal)}</span>
                 </div>
               </div>

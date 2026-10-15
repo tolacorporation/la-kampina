@@ -148,24 +148,21 @@ export default function CartDrawer() {
           {/* Drawer Footer */}
           {items.length > 0 && (
             <div className="p-4 bg-stone-50 border-t border-stone-200 space-y-3">
-              <div className="space-y-1.5 text-xs text-stone-600">
+              <div className="space-y-1.5 text-xs text-stone-700">
                 <div className="flex justify-between">
-                  <span>Subtotal comida y bebida:</span>
+                  <span>Productos:</span>
                   <span className="font-bold text-stone-900">{formatPrice(totalAmount)}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span>Envío / Delivery:</span>
+                  <span>Delivery:</span>
                   <span className="text-amber-800 font-bold bg-amber-100/70 border border-amber-300/60 px-2 py-0.5 rounded text-[11px]">
-                    A cotización según ubicación
+                    Pendiente a cotización
                   </span>
                 </div>
-                <div className="flex justify-between text-sm sm:text-base font-bold text-stone-900 pt-2 border-t border-amber-900/10">
-                  <span className="font-display">SUBTOTAL PRODUCTOS:</span>
+                <div className="flex justify-between text-base font-bold text-stone-900 pt-2 border-t border-stone-200">
+                  <span className="font-display">TOTAL:</span>
                   <span className="text-orange-600 font-display font-bold">{formatPrice(totalAmount)}</span>
                 </div>
-                <p className="text-[10px] text-stone-500 italic text-right font-normal">
-                  * El costo de delivery se cotiza según tu ubicación de Google Maps
-                </p>
               </div>
 
               <div className="space-y-2 pt-1">

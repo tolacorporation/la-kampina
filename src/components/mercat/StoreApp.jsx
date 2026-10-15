@@ -6,6 +6,7 @@ import CartDrawer from './CartDrawer';
 import CheckoutModal from './CheckoutModal';
 import InfoModal from './InfoModal';
 import WhatsAppFloating from './WhatsAppFloating';
+import ImageZoomModal from './ImageZoomModal';
 
 export default function StoreApp({ onBackToLanding }) {
   return (
@@ -47,6 +48,7 @@ export default function StoreApp({ onBackToLanding }) {
 
       {/* Popups and Modals */}
       <ProductModal />
+      <ImageZoomModal />
       <CartDrawer />
       <CheckoutModal />
       <InfoModal />
