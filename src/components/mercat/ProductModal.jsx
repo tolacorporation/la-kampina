@@ -54,11 +54,15 @@ export default function ProductModal() {
   const [quantity, setQuantity] = useState(1);
   const [selectedOption, setSelectedOption] = useState(null);
   const [notes, setNotes] = useState('');
+  const [modalImgLoaded, setModalImgLoaded] = useState(false);
+  const [modalImgError, setModalImgError] = useState(false);
 
   useEffect(() => {
     if (selectedProduct) {
       setQuantity(1);
       setNotes('');
+      setModalImgLoaded(false);
+      setModalImgError(false);
       if (Array.isArray(selectedProduct.options) && selectedProduct.options.length > 0) {
         setSelectedOption(selectedProduct.options[0]);
       } else {
@@ -94,10 +98,10 @@ export default function ProductModal() {
         {/* Header / Image banner */}
         <div
           className={`relative bg-stone-900 aspect-video w-full overflow-hidden flex items-center justify-center ${
-            selectedProduct.image ? 'cursor-pointer group' : ''
+            selectedProduct.image && !modalImgError ? 'cursor-pointer group' : ''
           }`}
           onClick={() => {
-            if (selectedProduct.image) {
+            if (selectedProduct.image && !modalImgError) {
               setZoomedImage({
                 src: selectedProduct.image,
                 alt: selectedProduct.name,
@@ -108,37 +112,9 @@ export default function ProductModal() {
             }
           }}
         >
-          {selectedProduct.image ? (
-            <>
-              <img
-                src={selectedProduct.image}
-                alt={selectedProduct.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-stone-950/70 via-transparent to-black/30 pointer-events-none" />
-
-              {/* Botón flotante para ver en grande / zoom */}
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setZoomedImage({
-                    src: selectedProduct.image,
-                    alt: selectedProduct.name,
-                    title: selectedProduct.name,
-                    badge: selectedProduct.badge,
-                    description: selectedProduct.description,
-                  });
-                }}
-                className="absolute bottom-3 right-3 z-20 flex items-center space-x-1.5 bg-black/70 hover:bg-black/90 text-white text-[11px] font-bold px-3 py-1.5 rounded-full backdrop-blur-md border border-white/25 shadow-xl transition-all duration-200 group-hover:scale-105"
-                title="Ver plato en grande y hacer zoom"
-              >
-                <IconZoomIn className="w-3.5 h-3.5 text-amber-400" />
-                <span>Ver en grande / Zoom</span>
-              </button>
-            </>
-          ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-stone-900 via-stone-950 to-black text-stone-200 p-6 relative">
+          {/* Respaldo elegante si no hay foto, mientras carga o si falla */}
+          {(!selectedProduct.image || modalImgError || !modalImgLoaded) && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-stone-900 via-stone-950 to-black text-stone-200 p-6 z-0 select-none">
               {/* Glow spotlight */}
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(203,97,21,0.32),transparent_70%)] pointer-events-none" />
 
@@ -146,6 +122,45 @@ export default function ProductModal() {
                 {getDishGraphic(selectedProduct.name)}
               </div>
             </div>
+          )}
+
+          {/* Fotografía del plato protegida contra errores */}
+          {selectedProduct.image && !modalImgError && (
+            <>
+              <img
+                src={selectedProduct.image}
+                alt={selectedProduct.name}
+                decoding="async"
+                onLoad={() => setModalImgLoaded(true)}
+                onError={() => setModalImgError(true)}
+                className={`w-full h-full object-cover group-hover:scale-105 transition-all duration-300 relative z-10 ${
+                  modalImgLoaded ? 'opacity-100' : 'opacity-0'
+                }`}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-950/70 via-transparent to-black/30 pointer-events-none z-10" />
+
+              {/* Botón flotante para ver en grande / zoom */}
+              {modalImgLoaded && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setZoomedImage({
+                      src: selectedProduct.image,
+                      alt: selectedProduct.name,
+                      title: selectedProduct.name,
+                      badge: selectedProduct.badge,
+                      description: selectedProduct.description,
+                    });
+                  }}
+                  className="absolute bottom-3 right-3 z-20 flex items-center space-x-1.5 bg-black/70 hover:bg-black/90 text-white text-[11px] font-bold px-3 py-1.5 rounded-full backdrop-blur-md border border-white/25 shadow-xl transition-all duration-200 group-hover:scale-105"
+                  title="Ver plato en grande y hacer zoom"
+                >
+                  <IconZoomIn className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Ver en grande / Zoom</span>
+                </button>
+              )}
+            </>
           )}
 
           {/* Badge Flotante */}

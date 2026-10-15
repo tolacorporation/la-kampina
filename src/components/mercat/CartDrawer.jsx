@@ -76,15 +76,16 @@ export default function CartDrawer() {
                 return (
                   <div key={itemKey} className="py-3.5 flex items-start space-x-3">
                     {/* Thumbnail */}
-                    <div className="w-14 h-14 rounded-xl bg-stone-900 border border-stone-800 overflow-hidden flex-shrink-0 flex items-center justify-center">
-                      {item.product?.image ? (
+                    <div className="w-14 h-14 rounded-xl bg-stone-900 border border-stone-800 overflow-hidden flex-shrink-0 flex items-center justify-center relative">
+                      <IconCloche className="w-6 h-6 text-amber-400 stroke-[1.5] absolute" />
+                      {item.product?.image && (
                         <img
                           src={item.product.image}
                           alt={item.product.name}
-                          className="w-full h-full object-cover"
+                          decoding="async"
+                          onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                          className="w-full h-full object-cover relative z-10"
                         />
-                      ) : (
-                        <IconCloche className="w-6 h-6 text-amber-400 stroke-[1.5]" />
                       )}
                     </div>
 

@@ -53,6 +53,8 @@ function getDishGraphic(name = '') {
 export default function ProductCard({ product }) {
   const { setSelectedProduct, addToCart, formatPrice, setZoomedImage } = useCart();
   const [justAdded, setJustAdded] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [imgError, setImgError] = useState(false);
   const hasOptions = Array.isArray(product.options) && product.options.length > 0;
 
   const handleActionClick = (e) => {
@@ -83,20 +85,29 @@ export default function ProductCard({ product }) {
         {/* Glow cálido ambiental detrás del elemento */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_45%,rgba(203,97,21,0.32)_0%,transparent_70%)] pointer-events-none" />
 
-        {product.image ? (
-          <img
-            src={product.image}
-            alt={product.name}
-            loading="lazy"
-            className="w-full h-full object-cover group-hover:scale-105 transition duration-300 relative z-10"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-stone-200 p-4 relative z-10 select-none">
+        {/* Respaldo visual elegante que evita cualquier icono roto o [?] */}
+        {(!product.image || imgError || !imgLoaded) && (
+          <div className="absolute inset-0 flex items-center justify-center text-stone-200 p-4 relative z-0 select-none">
             {/* Pedestal de Cristal Líquido Flotante */}
             <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_10px_25px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.4)] flex items-center justify-center group-hover:scale-110 group-hover:rotate-2 transition-all duration-300">
               {getDishGraphic(product.name)}
             </div>
           </div>
+        )}
+
+        {/* Fotografía real optimizada con carga suave y protección contra errores */}
+        {product.image && !imgError && (
+          <img
+            src={product.image}
+            alt={product.name}
+            loading="lazy"
+            decoding="async"
+            onLoad={() => setImgLoaded(true)}
+            onError={() => setImgError(true)}
+            className={`w-full h-full object-cover group-hover:scale-105 transition-all duration-300 relative z-10 ${
+              imgLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
         )}
 
         {/* Badges Flotantes de Cristal */}

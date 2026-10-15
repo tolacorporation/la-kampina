@@ -13,6 +13,8 @@ export default function ImageZoomModal() {
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
+  const [zoomImgLoaded, setZoomImgLoaded] = useState(false);
+  const [zoomImgError, setZoomImgError] = useState(false);
   const dragStartRef = useRef({ x: 0, y: 0 });
   const positionRef = useRef({ x: 0, y: 0 });
   const touchDistanceRef = useRef(null);
@@ -23,6 +25,8 @@ export default function ImageZoomModal() {
       setScale(1);
       setPosition({ x: 0, y: 0 });
       positionRef.current = { x: 0, y: 0 };
+      setZoomImgLoaded(false);
+      setZoomImgError(false);
       // Prevent background scrolling
       document.body.style.overflow = 'hidden';
     } else {
@@ -284,12 +288,23 @@ export default function ImageZoomModal() {
             toggleZoom();
           }}
         >
-          <img
-            src={zoomedImage.src}
-            alt={zoomedImage.alt || zoomedImage.title || 'Plato'}
-            className="max-h-[72vh] sm:max-h-[78vh] w-auto max-w-[94vw] object-contain rounded-2xl sm:rounded-3xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] border border-white/10 pointer-events-none"
-            draggable={false}
-          />
+          {!zoomImgError ? (
+            <img
+              src={zoomedImage.src}
+              alt={zoomedImage.alt || zoomedImage.title || 'Plato'}
+              decoding="async"
+              onLoad={() => setZoomImgLoaded(true)}
+              onError={() => setZoomImgError(true)}
+              className={`max-h-[72vh] sm:max-h-[78vh] w-auto max-w-[94vw] object-contain rounded-2xl sm:rounded-3xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] border border-white/10 pointer-events-none transition-opacity duration-300 ${
+                zoomImgLoaded ? 'opacity-100' : 'opacity-0'
+              }`}
+              draggable={false}
+            />
+          ) : (
+            <div className="p-8 text-center bg-stone-900 rounded-3xl border border-white/20 text-stone-300">
+              <p className="font-bold text-sm">No se pudo cargar la imagen en alta resolución.</p>
+            </div>
+          )}
         </div>
       </div>
 
