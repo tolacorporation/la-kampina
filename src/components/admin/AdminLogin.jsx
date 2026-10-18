@@ -26,9 +26,12 @@ export default function AdminLogin({ onLoginSuccess, onBackToStore }) {
     setIsLoading(true);
 
     try {
+      const cleanEmail = email.trim().toLowerCase();
+      const cleanPassword = password.trim();
+
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password,
+        email: cleanEmail,
+        password: cleanPassword,
       });
 
       if (error) {
@@ -111,6 +114,9 @@ export default function AdminLogin({ onLoginSuccess, onBackToStore }) {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="admin@lakampina.bo"
               autoComplete="email"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
               disabled={isLoading}
               className="w-full bg-stone-950/80 border border-white/15 focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 rounded-xl px-4 py-3 text-sm text-white placeholder-stone-600 outline-none transition duration-200"
             />
@@ -128,6 +134,9 @@ export default function AdminLogin({ onLoginSuccess, onBackToStore }) {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
                 autoComplete="current-password"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
                 disabled={isLoading}
                 className="w-full bg-stone-950/80 border border-white/15 focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 rounded-xl px-4 py-3 text-sm text-white placeholder-stone-600 outline-none transition duration-200 pr-12"
               />
