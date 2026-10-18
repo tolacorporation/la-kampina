@@ -3,36 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>La Kampiña | Restaurante Criollo y Tradición Cochabambina</title>
-    <meta name="description" content="Auténtico sabor criollo en Cochabamba. Especialistas en Charque originario crocante, Charkambre, Pique Macho, Matahambre y Ají de Fideo a leña. Pedidos y delivery en Cochabamba." />
+    <title>La Kampiña • Auténtica Gastronomía Cochabambina | Carta Digital & Pedidos</title>
+    <meta name="description" content="El auténtico Charque originario crocante, Charkambre, Pique Macho, Matahambre y Ají de Fideo a leña en Cochabamba. Carta digital con pedidos directos por WhatsApp y delivery." />
     <meta name="keywords" content="La Kampiña, restaurante criollo cochabamba, charque cochabamba, charkambre, pique macho cochabamba, comida tradicional cochabambina, restaurante campestre cochabamba, dorbigny km 4, delivery comida cochabamba" />
     <meta name="author" content="La Kampiña" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://la-kampina.pages.dev" />
 
-    <!-- Favicon & Mobile Browser Theme -->
+    <!-- Favicon, Manifest & Mobile App Experience -->
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="icon" type="image/webp" href="/logokampina3.webp" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <meta name="theme-color" content="#12100e" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#0c0a09" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="La Kampiña" />
+    <meta name="application-name" content="La Kampiña" />
 
-    <!-- OpenGraph / Social Sharing (WhatsApp, Facebook, LinkedIn) -->
-    <meta property="og:type" content="restaurant.restaurant" />
+    <!-- Google / Microdata Scrapers (Android Message Preview Fallback) -->
+    <meta itemprop="name" content="La Kampiña • Auténtica Gastronomía Cochabambina" />
+    <meta itemprop="description" content="El auténtico Charque crocante, Charkambre, Pique Macho y gastronomía criolla valluna en Cochabamba. Haz tu pedido directo por delivery o retiro en local." />
+    <meta itemprop="image" content="https://la-kampina.pages.dev/og-image.jpg" />
+
+    <!-- OpenGraph / Social Sharing (WhatsApp, TikTok, Facebook, Instagram) -->
+    <meta property="og:type" content="website" />
     <meta property="og:site_name" content="La Kampiña Cochabamba" />
-    <meta property="og:title" content="La Kampiña | Sabor Tradicional Cochabambino" />
-    <meta property="og:description" content="El auténtico charque crocante, charkambre y gastronomía criolla valluna a fuego lento. Realiza tu pedido directo por delivery o retiro en local." />
+    <meta property="og:title" content="La Kampiña • Auténtica Gastronomía Cochabambina" />
+    <meta property="og:description" content="El auténtico Charque crocante, Charkambre, Pique Macho y comida criolla valluna a fuego lento. Realiza tu pedido directo por delivery o retiro en local." />
+    <meta property="og:url" content="https://la-kampina.pages.dev" />
     <meta property="og:image" content="https://la-kampina.pages.dev/og-image.jpg" />
+    <meta property="og:image:secure_url" content="https://la-kampina.pages.dev/og-image.jpg" />
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:url" content="https://la-kampina.pages.dev" />
+    <meta property="og:image:alt" content="La Kampiña - Tradición y Gastronomía Cochabambina" />
     <meta property="og:locale" content="es_BO" />
+    <link rel="image_src" href="https://la-kampina.pages.dev/og-image.jpg" />
 
-    <!-- Twitter Card Meta -->
+    <!-- Twitter Card Meta (X, Slack, Telegram) -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="La Kampiña | Restaurante Criollo en Cochabamba" />
+    <meta name="twitter:title" content="La Kampiña • Auténtica Gastronomía Cochabambina" />
     <meta name="twitter:description" content="Charque crocante, charkambre, pique macho y ají de fideo a fuego lento en Cochabamba. Haz tu pedido en línea." />
     <meta name="twitter:image" content="https://la-kampina.pages.dev/og-image.jpg" />
+    <meta name="twitter:image:alt" content="La Kampiña - Gastronomía Cochabambina" />
 
     <!-- Fontshare Typography for Premium Gastronomy: General Sans (Display) + Switzer (UI/Sans) + Satoshi -->
     <link rel="preconnect" href="https://api.fontshare.com" />
@@ -44,9 +58,13 @@
       "@context": "https://schema.org",
       "@type": "Restaurant",
       "name": "La Kampiña",
-      "image": "https://la-kampina.pages.dev/logokampina3.webp",
-      "servesCuisine": ["Bolivian", "Criolla", "Cochabambina", "Charque"],
+      "image": [
+        "https://la-kampina.pages.dev/og-image.jpg",
+        "https://la-kampina.pages.dev/logokampina3.webp"
+      ],
+      "servesCuisine": ["Bolivian", "Criolla", "Cochabambina", "Charque", "Pique Macho"],
       "hasMenu": "https://la-kampina.pages.dev/#store",
+      "menu": "https://la-kampina.pages.dev/#store",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Av. D'orbigny Km 4 1/2, entre Av. Segunda y Rafael Torrico Montaño",
@@ -56,10 +74,12 @@
       },
       "geo": {
         "@type": "GeoCoordinates",
-        "latitude": -17.3864197,
-        "longitude": -66.1979073
+        "latitude": -17.3868948,
+        "longitude": -66.1975043
       },
       "telephone": "+59163993851",
+      "paymentAccepted": "Cash, QR Simple",
+      "currenciesAccepted": "BOB",
       "openingHoursSpecification": [
         {
           "@type": "OpeningHoursSpecification",

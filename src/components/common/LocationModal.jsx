@@ -70,25 +70,43 @@ export default function LocationModal({ isOpen, onClose }) {
             />
           </div>
 
-          {/* Botón único inteligente que detecta Apple Maps o Google Maps según el dispositivo */}
-          <div className="pt-2">
-            <button
-              onClick={openDeviceMap}
-              className="w-full bg-[#cb6115] hover:bg-[#af5312] text-white font-black py-3 px-4 rounded-xl text-xs sm:text-sm uppercase tracking-wide transition flex items-center justify-center space-x-2 shadow-md active:scale-[0.98] cursor-pointer"
-              title={isApple ? 'Abrir en Apple Maps' : 'Abrir en Google Maps'}
-            >
-              {isApple ? (
-                <>
+          {/* Botones de navegación GPS */}
+          <div className="pt-2 space-y-2">
+            {isApple ? (
+              <>
+                <a
+                  href={RESTAURANT_INFO.location.appleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full bg-[#cb6115] hover:bg-[#af5312] text-white font-black py-3 px-4 rounded-xl text-xs sm:text-sm uppercase tracking-wide transition flex items-center justify-center space-x-2 shadow-md active:scale-[0.98] cursor-pointer"
+                  title="Abrir ubicación oficial en Apple Maps"
+                >
                   <IconApple className="w-4 h-4 text-white" />
                   <span>Abrir en Apple Maps</span>
-                </>
-              ) : (
-                <>
-                  <IconGoogleMaps className="w-4 h-4 text-white" />
-                  <span>Abrir en Google Maps</span>
-                </>
-              )}
-            </button>
+                </a>
+                <a
+                  href={RESTAURANT_INFO.location.googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold py-2.5 px-4 rounded-xl text-xs uppercase tracking-wide transition flex items-center justify-center space-x-2 border border-stone-200 active:scale-[0.98] cursor-pointer"
+                  title="Abrir ubicación en Google Maps"
+                >
+                  <IconGoogleMaps className="w-4 h-4 text-stone-600" />
+                  <span>O abrir en Google Maps</span>
+                </a>
+              </>
+            ) : (
+              <a
+                href={RESTAURANT_INFO.location.googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-[#cb6115] hover:bg-[#af5312] text-white font-black py-3 px-4 rounded-xl text-xs sm:text-sm uppercase tracking-wide transition flex items-center justify-center space-x-2 shadow-md active:scale-[0.98] cursor-pointer"
+                title="Abrir en Google Maps"
+              >
+                <IconGoogleMaps className="w-4 h-4 text-white" />
+                <span>Abrir en Google Maps</span>
+              </a>
+            )}
           </div>
 
           {/* Direct Phone Contact */}

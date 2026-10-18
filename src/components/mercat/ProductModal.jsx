@@ -50,7 +50,16 @@ function getDishGraphic(name = '') {
 }
 
 export default function ProductModal() {
-  const { selectedProduct, setSelectedProduct, addToCart, formatPrice, parsePrice, setZoomedImage } = useCart();
+  const {
+    selectedProduct,
+    setSelectedProduct,
+    addToCart,
+    formatPrice,
+    parsePrice,
+    setZoomedImage,
+    liveDiscount,
+    isDiscountableDish,
+  } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [selectedOption, setSelectedOption] = useState(null);
   const [notes, setNotes] = useState('');
@@ -75,9 +84,14 @@ export default function ProductModal() {
 
   const hasOptions = Array.isArray(selectedProduct.options) && selectedProduct.options.length > 0;
   
-  const unitPrice = selectedOption
+  const rawUnitPrice = selectedOption
     ? parsePrice(selectedOption.price)
     : parsePrice(selectedProduct.price);
+
+  const isEligibleForLiveDiscount = liveDiscount?.active && isDiscountableDish(selectedProduct);
+  const unitPrice = isEligibleForLiveDiscount
+    ? Math.max(0, rawUnitPrice - liveDiscount.amount)
+    : rawUnitPrice;
 
   const totalPrice = unitPrice * quantity;
 
@@ -189,9 +203,25 @@ export default function ProductModal() {
               <h2 className="text-xl md:text-2xl font-display font-bold text-stone-900 tracking-[0.02em] leading-snug">
                 {selectedProduct.name}
               </h2>
-              <span className="text-xl md:text-2xl font-display font-bold text-orange-600 ml-3 whitespace-nowrap">
-                {formatPrice(unitPrice)}
-              </span>
+              <div className="flex flex-col items-end ml-3 whitespace-nowrap">
+                {isEligibleForLiveDiscount && (
+                  <div className="flex items-center space-x-1 mb-0.5">
+                    <span className="text-xs text-stone-400 line-through">
+                      {formatPrice(rawUnitPrice)}
+                    </span>
+                    <span className="text-[9px] font-bold uppercase tracking-wider bg-red-600 text-white px-2 py-0.5 rounded-full">
+                      En Vivo
+                    </span>
+                  </div>
+                )}
+                <span
+                  className={`text-xl md:text-2xl font-display font-bold ${
+                    isEligibleForLiveDiscount ? 'text-red-600' : 'text-orange-600'
+                  }`}
+                >
+                  {formatPrice(unitPrice)}
+                </span>
+              </div>
             </div>
             {selectedProduct.description && (
               <p className="text-xs md:text-sm text-stone-600 mt-2 leading-relaxed font-normal">

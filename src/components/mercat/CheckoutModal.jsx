@@ -15,7 +15,18 @@ import {
 } from '../common/Icons';
 
 export default function CheckoutModal() {
-  const { isCheckoutOpen, setIsCheckoutOpen, items, totalAmount, clearCart, formatPrice } = useCart();
+  const {
+    isCheckoutOpen,
+    setIsCheckoutOpen,
+    items,
+    totalAmount,
+    clearCart,
+    formatPrice,
+    liveDiscount,
+    storeSettings,
+  } = useCart();
+  const isClosed = storeSettings?.is_closed_override === 'true';
+  const closedMessage = storeSettings?.closed_message || 'Hoy cerrado por evento privado';
   const [deliveryType, setDeliveryType] = useState('delivery');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -116,13 +127,19 @@ export default function CheckoutModal() {
     });
 
     text += `\n*Total:* ${formatPrice(subtotal)}\n`;
+    if (liveDiscount?.active) {
+      text += `*Promo Live Aplicada:* -${liveDiscount.amount} Bs en platos\n`;
+    }
     if (deliveryType === 'delivery') {
       text += `*Delivery:* Pendiente a cotización\n`;
     }
     text += `*Pago:* ${paymentMethod === 'qr' ? 'QR Simple' : 'Efectivo'}`;
 
     const encoded = encodeURIComponent(text);
-    return `${RESTAURANT_INFO.whatsappOrderUrl}?text=${encoded}`;
+    const whatsappBase = storeSettings?.whatsapp_number
+      ? `https://wa.me/${storeSettings.whatsapp_number}`
+      : RESTAURANT_INFO.whatsappOrderUrl;
+    return `${whatsappBase}?text=${encoded}`;
   };
 
   const handleSendWhatsApp = async (e) => {
@@ -134,18 +151,6 @@ export default function CheckoutModal() {
     }
 
     setIsLoading(true);
-
-    const apiUrl = import.meta.env.VITE_API_URL;
-
-    // Si no hay un servidor backend configurado explícitamente, enviamos a WhatsApp de inmediato (0s de espera)
-    if (!apiUrl) {
-      const targetUrl = generateClientFallbackUrl();
-      window.open(targetUrl, '_blank');
-      setIsLoading(false);
-      setIsSuccess(true);
-      clearCart();
-      return;
-    }
 
     const orderPayload = {
       customerName: name.trim(),
@@ -165,9 +170,10 @@ export default function CheckoutModal() {
 
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2500);
+      const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-      const response = await fetch(`${apiUrl}/orders/whatsapp`, {
+      // Patrón Búnker: Validación segura en el Edge contra Cloudflare KV
+      const response = await fetch('/api/validate-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderPayload),
@@ -183,7 +189,7 @@ export default function CheckoutModal() {
         }
       }
     } catch (err) {
-      console.warn('Backend offline. Usando enlace directo a WhatsApp:', err);
+      console.warn('Fallo en validación Edge. Usando fallback de cliente a WhatsApp:', err);
     } finally {
       if (!targetUrl) {
         targetUrl = generateClientFallbackUrl();
@@ -479,14 +485,25 @@ export default function CheckoutModal() {
 
             {/* Fixed Footer inside modal: Always visible, never cut off */}
             <div className="p-3.5 sm:p-4 bg-stone-50 border-t border-stone-200 shrink-0">
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full bg-[#1da851] hover:bg-[#189346] shadow-[0_4px_16px_rgba(29,168,81,0.35)] disabled:opacity-75 text-white font-display font-bold py-3.5 px-4 rounded-xl text-sm sm:text-base uppercase tracking-wider transition flex items-center justify-center space-x-2 active:scale-[0.98] cursor-pointer"
-              >
-                <IconMessageCircle className="w-5 h-5 text-white" />
-                <span>{isLoading ? 'Preparando pedido...' : 'Enviar pedido por WhatsApp'}</span>
-              </button>
+              {isClosed ? (
+                <div className="w-full bg-amber-50 border border-amber-300 p-3.5 rounded-xl text-center">
+                  <p className="text-xs font-bold text-amber-950 uppercase tracking-wide">
+                    Recepción de Pedidos Pausada
+                  </p>
+                  <p className="text-[11px] text-stone-600 mt-0.5">
+                    {closedMessage}. No se pueden enviar pedidos por WhatsApp en este momento.
+                  </p>
+                </div>
+              ) : (
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full bg-[#1da851] hover:bg-[#189346] shadow-[0_4px_16px_rgba(29,168,81,0.35)] disabled:opacity-75 text-white font-display font-bold py-3.5 px-4 rounded-xl text-sm sm:text-base uppercase tracking-wider transition flex items-center justify-center space-x-2 active:scale-[0.98] cursor-pointer"
+                >
+                  <IconMessageCircle className="w-5 h-5 text-white" />
+                  <span>{isLoading ? 'Preparando pedido...' : 'Enviar pedido por WhatsApp'}</span>
+                </button>
+              )}
             </div>
           </form>
         )}

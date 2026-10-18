@@ -16,23 +16,23 @@ export const RESTAURANT_INFO = {
     municipality: 'Cochabamba Cercado',
     address: "Cochabamba, Av. D'orbigny Km 4 1/2, entre Avenida Segunda y Rafael Torrico Montaño",
     coordinates: {
-      lat: -17.386419717819592,
-      lng: -66.19790732996796,
+      lat: -17.3868948,
+      lng: -66.1975043,
     },
     // Iframe oficial de Google Maps
     embedUrl:
-      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3807.5282314697683!2d-66.19790732996796!3d-17.386419717819592!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x93e3753d5a229d0d%3A0x34638884d69ed59!2sLa%20Kampi%C3%B1a!5e0!3m2!1ses!2sbo!4v1791904589718!5m2!1ses!2sbo',
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1903.7641157348842!2d-66.1978188!3d-17.3867512!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x93e3753d5a229d0d%3A0x34638884d69ed59!2sLa%20Kampi%C3%B1a!5e0!3m2!1ses!2sbo!4v1791904589718!5m2!1ses!2sbo',
     // Enlace directo universal a Google Maps (abre app nativa en Android y web en escritorio)
     googleMapsUrl:
-      'https://www.google.com/maps/search/?api=1&query=-17.386419717819592,-66.19790732996796&query_place_id=ChIJDa0iWj1145MRmdWe1oSIYzQ',
-    // Enlace directo a Apple Maps (abre app nativa de Mapas en iPhone, iPad y Mac)
+      'https://maps.app.goo.gl/MFppzZKKQJBMrJku5',
+    // Enlace directo verificado a Apple Maps (abre ficha oficial del local en iPhone, iPad y Mac)
     appleMapsUrl:
-      'https://maps.apple.com/?q=La+Kampi%C3%B1a&ll=-17.386419717819592,-66.19790732996796',
+      'https://maps.apple/p/97YkcGn7PveVRw',
   },
   
   schedule: {
     days: 'Miércoles a Domingo & Feriados',
-    hours: '10:30 AM - 18:30 PM (Horario continuo)',
+    hours: '12:00 PM - 18:00 PM (Horario continuo)',
   },
 };
 
@@ -70,11 +70,56 @@ export function openDeviceMap() {
 }
 
 /**
- * Calcula si el restaurante se encuentra actualmente en horario de atención:
- * Miércoles a Domingo de 10:30 AM a 18:30 PM (Hora de Bolivia UTC-4).
+ * Parsea el rango de horarios configurado en store_settings o por defecto (12:00 a 18:00).
  */
-export function getRestaurantOpenStatus() {
+export function parseScheduleHours(hoursString) {
+  // Horario oficial: 12:00 PM (720 min) a 18:00 PM (1080 min)
+  let openHour = 12;
+  let openMin = 0;
+  let closeHour = 18;
+  let closeMin = 0;
+
+  if (typeof hoursString === 'string') {
+    const times = hoursString.match(/\b(\d{1,2}):(\d{2})\b/g);
+    if (times && times.length >= 2) {
+      const [startH, startM] = times[0].split(':').map(Number);
+      const [endH, endM] = times[1].split(':').map(Number);
+
+      openHour = startH;
+      openMin = startM;
+      closeHour = endH < 10 ? endH + 12 : endH;
+      closeMin = endM;
+    }
+  }
+
+  const openMinutes = openHour * 60 + openMin;
+  const closeMinutes = closeHour * 60 + closeMin;
+  const openLabel = `${String(openHour).padStart(2, '0')}:${String(openMin).padStart(2, '0')}`;
+  const closeLabel = `${String(closeHour).padStart(2, '0')}:${String(closeMin).padStart(2, '0')}`;
+
+  return { openMinutes, closeMinutes, openLabel, closeLabel };
+}
+
+/**
+ * Calcula si el restaurante se encuentra actualmente en horario de atención.
+ * Admite configuración dinámica de store_settings desde el portal de control.
+ */
+export function getRestaurantOpenStatus(storeSettings = null) {
   try {
+    // 1. Control de Cierre Temporal Maestro desde el Portal de Control
+    if (storeSettings?.is_closed_override === 'true') {
+      return {
+        isOpen: false,
+        statusText: 'Local Cerrado',
+        detailText: storeSettings.closed_message || 'Cerrado temporalmente',
+      };
+    }
+
+    // 2. Horario dinámico desde store_settings o canónico (12:00 a 18:00)
+    const { openMinutes, closeMinutes, openLabel, closeLabel } = parseScheduleHours(
+      storeSettings?.schedule_hours || RESTAURANT_INFO.schedule.hours
+    );
+
     const now = new Date();
     const formatter = new Intl.DateTimeFormat('en-US', {
       timeZone: 'America/La_Paz',
@@ -98,21 +143,17 @@ export function getRestaurantOpenStatus() {
     const openDays = ['Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     const isDayOpen = openDays.includes(day);
 
-    // Horario continuo: 10:30 AM (630m) a 18:30 PM (1110m)
-    const openMinutes = 10 * 60 + 30;
-    const closeMinutes = 18 * 60 + 30;
-
     const isOpen = isDayOpen && currentMinutes >= openMinutes && currentMinutes < closeMinutes;
 
     let detail = '';
     if (isOpen) {
-      detail = 'Atendiendo hasta 18:30';
+      detail = `Atendiendo hasta ${closeLabel}`;
     } else if (isDayOpen && currentMinutes < openMinutes) {
-      detail = 'Abre hoy a las 10:30';
+      detail = `Abre hoy a las ${openLabel}`;
     } else if (day === 'Mon' || day === 'Tue' || (day === 'Sun' && currentMinutes >= closeMinutes)) {
-      detail = 'Abre miércoles a las 10:30';
+      detail = `Abre miércoles a las ${openLabel}`;
     } else {
-      detail = 'Abre mañana a las 10:30';
+      detail = `Abre mañana a las ${openLabel}`;
     }
 
     return {
@@ -124,8 +165,23 @@ export function getRestaurantOpenStatus() {
     return {
       isOpen: false,
       statusText: 'Cerrado Ahora',
-      detailText: 'Mié a Dom 10:30 - 18:30',
+      detailText: 'Mié a Dom 12:00 - 18:00',
     };
   }
 }
 
+/**
+ * Detecta si hoy es jueves en la zona horaria de Bolivia (America/La_Paz).
+ * Usado para mostrar el banner festivo del Ají de Fideo.
+ */
+export function isThursday() {
+  try {
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/La_Paz',
+      weekday: 'short',
+    });
+    return formatter.format(new Date()) === 'Thu';
+  } catch {
+    return new Date().getDay() === 4;
+  }
+}

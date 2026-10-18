@@ -1,0 +1,29 @@
+{
+  "name": "La Kampiña • Gastronomía Cochabambina",
+  "short_name": "La Kampiña",
+  "description": "El auténtico charque crocante y comida tradicional criolla en Cochabamba. Carta digital y pedidos online.",
+  "start_url": "/#store",
+  "display": "standalone",
+  "background_color": "#0c0a09",
+  "theme_color": "#cb6115",
+  "lang": "es-BO",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/logokampina3.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
+    }
+  ]
+}

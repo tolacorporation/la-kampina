@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useCart } from '../../context/CartContext';
 import {
   IconMeat,
@@ -50,12 +50,31 @@ function getDishGraphic(name = '') {
   return <IconUtensils className="w-8 h-8 md:w-9 md:h-9 text-[#cb6115] stroke-[1.5]" />;
 }
 
-export default function ProductCard({ product }) {
-  const { setSelectedProduct, addToCart, formatPrice, setZoomedImage } = useCart();
+export default function ProductCard({ product, revealDelay = 0 }) {
+  const { setSelectedProduct, addToCart, formatPrice, parsePrice, setZoomedImage, liveDiscount, isDiscountableDish } = useCart();
   const [justAdded, setJustAdded] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const cardRef = useRef(null);
   const hasOptions = Array.isArray(product.options) && product.options.length > 0;
+
+  // Scroll-reveal: fade + slide-up cuando la tarjeta entra en el viewport
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => setVisible(true), revealDelay);
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.08 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [revealDelay]);
 
   const handleActionClick = (e) => {
     e.stopPropagation();
@@ -68,14 +87,29 @@ export default function ProductCard({ product }) {
     }
   };
 
+  const baseRawPrice = hasOptions
+    ? (product.price || product.options[0].price)
+    : product.price;
+
+  const isEligibleForLiveDiscount = liveDiscount?.active && isDiscountableDish(product);
+  const discountedRawPrice = isEligibleForLiveDiscount
+    ? Math.max(0, parsePrice(baseRawPrice) - liveDiscount.amount)
+    : parsePrice(baseRawPrice);
+
   const displayPrice = hasOptions
-    ? `Desde ${formatPrice(product.price || product.options[0].price)}`
-    : formatPrice(product.price);
+    ? `Desde ${formatPrice(discountedRawPrice)}`
+    : formatPrice(discountedRawPrice);
+
+  const originalPriceFormatted = formatPrice(baseRawPrice);
 
   return (
     <div
+      ref={cardRef}
       onClick={() => setSelectedProduct(product)}
-      className="relative bg-stone-900/85 backdrop-blur-xl rounded-3xl p-3 sm:p-3.5 border border-white/15 hover:border-amber-500/60 shadow-[0_12px_32px_rgba(0,0,0,0.55)] hover:shadow-[0_18px_40px_rgba(203,97,21,0.25)] transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer group hover:-translate-y-1.5"
+      style={{ transitionDelay: `${revealDelay}ms` }}
+      className={`relative bg-stone-900/85 backdrop-blur-xl rounded-3xl p-3 sm:p-3.5 border border-white/15 hover:border-amber-500/60 shadow-[0_12px_32px_rgba(0,0,0,0.55)] hover:shadow-[0_18px_40px_rgba(203,97,21,0.25)] flex flex-col justify-between overflow-hidden cursor-pointer group hover:-translate-y-1.5 transition-all duration-500 ${
+        visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      }`}
     >
       {/* Reflejo de luz superior tipo cristal */}
       <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
@@ -123,6 +157,14 @@ export default function ProductCard({ product }) {
           </span>
         )}
 
+        {/* Tag Minimalista de Live */}
+        {isEligibleForLiveDiscount && (
+          <span className="absolute top-2.5 right-2.5 z-20 text-[9px] font-bold tracking-wide uppercase px-2 py-0.5 rounded-full bg-red-600/90 backdrop-blur-md text-white border border-white/20 shadow-md flex items-center space-x-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-white" />
+            <span>En Vivo</span>
+          </span>
+        )}
+
         {/* Botón flotante para ver foto en grande / zoom */}
         {product.image && (
           <button
@@ -155,8 +197,17 @@ export default function ProductCard({ product }) {
         </div>
 
         <div className="mt-3.5 pt-2.5 border-t border-white/10 flex items-center justify-between">
-          <div className="flex items-center">
-            <span className="text-base md:text-lg font-display font-extrabold text-amber-400 tracking-normal drop-shadow-sm">
+          <div className="flex items-baseline space-x-1.5">
+            {isEligibleForLiveDiscount && (
+              <span className="text-xs text-stone-500 line-through">
+                {originalPriceFormatted.replace('Desde ', '')}
+              </span>
+            )}
+            <span
+              className={`text-base md:text-lg font-display font-extrabold tracking-normal drop-shadow-sm ${
+                isEligibleForLiveDiscount ? 'text-rose-400' : 'text-amber-400'
+              }`}
+            >
               {displayPrice.replace('Desde ', '')}
             </span>
           </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCart } from '../../context/CartContext';
-import { IconShoppingBag, IconX, IconUtensils, IconCloche, IconArrowRight, IconEmptyBag } from '../common/Icons';
+import { IconShoppingBag, IconX, IconUtensils, IconCloche, IconArrowRight, IconEmptyBag, IconAlertTriangle } from '../common/Icons';
 
 export default function CartDrawer() {
   const {
@@ -14,7 +14,12 @@ export default function CartDrawer() {
     totalAmount,
     formatPrice,
     setIsCheckoutOpen,
+    liveDiscount,
+    storeSettings,
   } = useCart();
+
+  const isClosed = storeSettings?.is_closed_override === 'true';
+  const closedMessage = storeSettings?.closed_message || 'Hoy cerrado por evento privado';
 
   if (!isCartOpen) return null;
 
@@ -150,6 +155,17 @@ export default function CartDrawer() {
           {items.length > 0 && (
             <div className="p-4 bg-stone-50 border-t border-stone-200 space-y-3">
               <div className="space-y-1.5 text-xs text-stone-700">
+                {liveDiscount?.active && (
+                  <div className="text-[11px] font-bold text-red-600 bg-red-50 border border-red-200/80 px-2.5 py-1.5 rounded-xl flex items-center justify-between mb-2">
+                    <span className="flex items-center space-x-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
+                      <span>Descuento En Vivo aplicado</span>
+                    </span>
+                    <span className="text-[9px] uppercase font-black bg-red-600 text-white px-1.5 py-0.2 rounded">
+                      Live
+                    </span>
+                  </div>
+                )}
                 <div className="flex justify-between">
                   <span>Productos:</span>
                   <span className="font-bold text-stone-900">{formatPrice(totalAmount)}</span>
@@ -167,19 +183,31 @@ export default function CartDrawer() {
               </div>
 
               <div className="space-y-2 pt-1">
-                <button
-                  onClick={handleCheckout}
-                  className="w-full btn-vibrant-flame text-white font-bold py-3.5 px-4 rounded-2xl text-sm uppercase tracking-wider flex items-center justify-between cursor-pointer"
-                >
-                  <span className="font-display">Continuar Pedido</span>
-                  <div className="flex items-center space-x-1 font-display font-bold">
-                    <span>{formatPrice(totalAmount)}</span>
-                    <IconArrowRight className="w-4 h-4 ml-1" />
+                {isClosed ? (
+                  <div className="w-full bg-amber-50 border border-amber-300 p-3.5 rounded-2xl text-center space-y-1">
+                    <div className="flex items-center justify-center space-x-1.5 text-amber-900 font-bold text-xs uppercase tracking-wider">
+                      <IconAlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0" />
+                      <span>Recepción de Pedidos Pausada</span>
+                    </div>
+                    <p className="text-[11px] text-stone-600 leading-snug">
+                      {closedMessage}. No es posible procesar pedidos por WhatsApp por el momento.
+                    </p>
                   </div>
-                </button>
+                ) : (
+                  <button
+                    onClick={handleCheckout}
+                    className="w-full btn-vibrant-flame text-white font-bold py-3.5 px-4 rounded-2xl text-sm uppercase tracking-wider flex items-center justify-between cursor-pointer"
+                  >
+                    <span className="font-display">Continuar Pedido</span>
+                    <div className="flex items-center space-x-1 font-display font-bold">
+                      <span>{formatPrice(totalAmount)}</span>
+                      <IconArrowRight className="w-4 h-4 ml-1" />
+                    </div>
+                  </button>
+                )}
                 <button
                   onClick={clearCart}
-                  className="w-full text-center text-xs text-stone-400 hover:text-stone-600 py-1 font-semibold"
+                  className="w-full text-center text-xs text-stone-400 hover:text-stone-600 py-1 font-semibold cursor-pointer"
                 >
                   Vaciar pedido
                 </button>

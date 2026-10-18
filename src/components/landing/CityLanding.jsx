@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useCart } from '../../context/CartContext';
 import {
   IconMapPin,
   IconArrowRight,
@@ -10,7 +11,8 @@ import { getRestaurantOpenStatus } from '../../data/restaurantInfo';
 
 export default function CityLanding({ onSelectStore }) {
   const [isLocationOpen, setIsLocationOpen] = useState(false);
-  const status = getRestaurantOpenStatus();
+  const { storeSettings } = useCart();
+  const status = getRestaurantOpenStatus(storeSettings);
   return (
     <div className="relative h-screen h-[100dvh] max-h-[100dvh] w-full bg-stone-950 text-white flex flex-col justify-between overflow-hidden select-none">
       {/* 1. Fondo Cinematográfico Fotográfico con Movimiento Suave */}
@@ -122,20 +124,35 @@ export default function CityLanding({ onSelectStore }) {
         />
       </div>
 
-      {/* 3. Header Minimalista & Discreto (Ubicación Interactiva) */}
+      {/* 3. Header Centrado en PC & Móvil (Ubicación Interactiva) */}
       <header
         role="banner"
-        className="relative z-30 pt-3 sm:pt-6 px-4 sm:px-6 pt-[max(0.75rem,env(safe-area-inset-top))] flex items-center justify-center sm:justify-start max-w-6xl mx-auto w-full shrink-0"
+        className="relative z-30 px-4 sm:px-6 pt-[max(3.25rem,calc(env(safe-area-inset-top)+1.5rem))] sm:pt-8 flex items-center justify-center max-w-6xl mx-auto w-full shrink-0"
       >
         {/* Ubicación: Cochabamba, Bolivia (Interactivo para ver ubicación y mapas) */}
         <button
           type="button"
           onClick={() => setIsLocationOpen(true)}
-          className="flex items-center space-x-2 text-xs sm:text-sm font-semibold text-stone-100 bg-stone-900/90 backdrop-blur-md px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full border border-stone-700/80 shadow-md transition hover:border-[#cb6115] hover:text-[#cb6115] cursor-pointer"
-          title="Ver ubicación en Google Maps / Apple Maps"
+          className="group relative inline-flex items-center space-x-2 sm:space-x-3 text-xs sm:text-sm text-stone-200 bg-stone-900/95 hover:bg-stone-900 backdrop-blur-md px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-full border border-white/20 hover:border-amber-400/60 shadow-[0_6px_24px_rgba(0,0,0,0.65)] transition-all duration-300 active:scale-95 cursor-pointer"
+          title="Toca para ver la ubicación en Google Maps y Apple Maps"
         >
-          <IconMapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#cb6115]" aria-hidden="true" />
-          <span>Cochabamba, Bolivia</span>
+          {/* Pin con micro-ping sutil */}
+          <span className="relative flex items-center justify-center shrink-0">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#cb6115] absolute animate-ping opacity-35 group-hover:opacity-75" />
+            <IconMapPin className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#cb6115] relative z-10 group-hover:scale-110 transition-transform" aria-hidden="true" />
+          </span>
+
+          <span className="font-bold text-white text-xs sm:text-sm group-hover:text-amber-200 transition-colors tracking-tight">
+            Cochabamba, Bolivia
+          </span>
+
+          <span className="text-stone-500 text-xs">•</span>
+
+          {/* Indicación de acción agrandada y nítida en móvil */}
+          <span className="inline-flex items-center space-x-1 text-[11px] sm:text-xs font-mono font-bold uppercase tracking-wider text-amber-300 bg-amber-400/15 border border-amber-400/30 px-2.5 py-1 rounded-full group-hover:bg-amber-400 group-hover:text-stone-950 transition-all duration-200 shrink-0">
+            <span>Ver mapa</span>
+            <span className="text-xs group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">↗</span>
+          </span>
         </button>
       </header>
 

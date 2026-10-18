@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useCart } from '../../context/CartContext';
 import { CATALOG_CATEGORIES } from '../../data/catalog';
-import { IconSearch, IconShoppingBag, IconMapPin, IconX } from '../common/Icons';
+import { isThursday } from '../../data/restaurantInfo';
+import { IconSearch, IconShoppingBag, IconMapPin, IconX, IconAlertTriangle } from '../common/Icons';
 
 export default function StoreHeader({ onBackToLanding }) {
   const {
@@ -14,7 +15,15 @@ export default function StoreHeader({ onBackToLanding }) {
     setIsInfoOpen,
     activeCategory,
     setActiveCategory,
+    categories,
+    liveDiscount,
+    storeSettings,
   } = useCart();
+
+  const isClosed = storeSettings?.is_closed_override === 'true';
+  const closedMessage = storeSettings?.closed_message || 'Hoy cerrado por evento privado';
+
+  const currentCategories = categories && categories.length > 0 ? categories : CATALOG_CATEGORIES;
 
   const [isScrolled, setIsScrolled] = useState(false);
   const scrollContainerRef = useRef(null);
@@ -63,6 +72,78 @@ export default function StoreHeader({ onBackToLanding }) {
     >
       {/* Specular glass highlight bevel */}
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none" />
+
+      {/* ⚠️ Banner Oficial de Cierre Temporal del Local */}
+      {isClosed && (
+        <div className="relative overflow-hidden bg-gradient-to-r from-amber-600 via-amber-500 to-orange-600 text-stone-950 font-bold border-b border-amber-400/40 animate-fade-in shadow-md">
+          <div className="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <IconAlertTriangle className="w-4 h-4 text-stone-950 flex-shrink-0" />
+              <p className="text-[11px] sm:text-xs font-bold truncate">
+                <span className="uppercase font-black text-[9px] bg-stone-950 text-amber-300 px-2 py-0.5 rounded tracking-wider mr-1.5">
+                  Local Cerrado
+                </span>
+                {closedMessage} · Pedidos pausados temporalmente
+              </p>
+            </div>
+            <span className="text-[10px] uppercase font-bold text-stone-950/80 tracking-wider hidden sm:inline flex-shrink-0">
+              Carta informativa
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* 🔴 Banner Dinámico de Live / Descuento Activo */}
+      {liveDiscount?.active && (
+        <div className="relative overflow-hidden bg-gradient-to-r from-red-600 via-rose-700 to-red-600 border-b border-red-400/40 text-white animate-fade-in shadow-sm">
+          <div className="max-w-6xl mx-auto px-4 py-1.5 flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="relative flex h-2 w-2 flex-shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+              </span>
+              <p className="text-[11px] sm:text-xs font-bold truncate tracking-wide">
+                <span className="bg-white/20 text-white uppercase text-[9px] font-black px-1.5 py-0.5 rounded tracking-wider mr-1.5">
+                  LIVE
+                </span>
+                {liveDiscount.title || '¡Estamos en Vivo! Descuento especial en todos los platos'}
+              </p>
+            </div>
+            <span className="text-[10px] uppercase font-bold text-amber-200 tracking-wider hidden sm:inline flex-shrink-0">
+              Descuento activo
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* 🌶️ Banner especial — solo aparece los jueves */}
+      {isThursday() && (
+        <div className="relative overflow-hidden bg-gradient-to-r from-red-900/90 via-orange-800/90 to-amber-800/90 border-b border-amber-500/40 animate-fade-in">
+          {/* Shimmer de luz */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse pointer-events-none" />
+          <div className="max-w-6xl mx-auto px-4 py-1.5 flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 text-amber-100 min-w-0">
+              <span className="text-base animate-bounce flex-shrink-0" role="img" aria-label="ají">🌶️</span>
+              <p className="text-[11px] sm:text-xs font-bold truncate">
+                <span className="text-amber-300 font-black">¡Hoy es Jueves!</span>
+                {' '}Hay Ají de Fideo · Solo 45 Bs.
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                const el = document.getElementById('cat-aji-fideo');
+                if (el) {
+                  const y = el.getBoundingClientRect().top + window.pageYOffset - 120;
+                  window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+                }
+              }}
+              className="flex-shrink-0 text-[10px] sm:text-[11px] font-black uppercase tracking-wider bg-amber-400 hover:bg-amber-300 text-stone-950 px-2.5 py-1 rounded-lg transition-all active:scale-95 cursor-pointer shadow-md"
+            >
+              Ver →
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Top Banner Row (Adaptable y fluida en móvil) */}
       <div
@@ -195,7 +276,7 @@ export default function StoreHeader({ onBackToLanding }) {
             isScrolled ? 'py-1.5' : 'py-2'
           }`}
         >
-          {CATALOG_CATEGORIES.map((cat) => {
+          {currentCategories.map((cat) => {
             const isActive = activeCategory === cat.id;
             return (
               <button

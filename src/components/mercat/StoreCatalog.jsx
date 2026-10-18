@@ -5,7 +5,8 @@ import { useCart } from '../../context/CartContext';
 import { IconSearch, IconCloche } from '../common/Icons';
 
 export default function StoreCatalog() {
-  const { searchQuery, setActiveCategory, setIsInfoOpen, setSelectedProduct } = useCart();
+  const { categories, searchQuery, setActiveCategory, setIsInfoOpen, setSelectedProduct } = useCart();
+  const currentCategories = categories && categories.length > 0 ? categories : CATALOG_CATEGORIES;
 
   // Auto-sincronizar la categoría activa en la barra superior al hacer scroll
   useEffect(() => {
@@ -18,8 +19,8 @@ export default function StoreCatalog() {
         window.requestAnimationFrame(() => {
           // 1. Si estamos en la parte superior de la página
           if (window.scrollY < 100) {
-            if (CATALOG_CATEGORIES[0]) {
-              setActiveCategory(CATALOG_CATEGORIES[0].id);
+            if (currentCategories[0]) {
+              setActiveCategory(currentCategories[0].id);
             }
             ticking = false;
             return;
@@ -28,7 +29,7 @@ export default function StoreCatalog() {
           // 2. Si estamos al fondo de la página (última categoría visible)
           const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 80;
           if (isAtBottom) {
-            const lastCat = CATALOG_CATEGORIES[CATALOG_CATEGORIES.length - 1];
+            const lastCat = currentCategories[currentCategories.length - 1];
             if (lastCat) {
               setActiveCategory(lastCat.id);
             }
@@ -38,7 +39,7 @@ export default function StoreCatalog() {
 
           // 3. Detección precisa de la categoría visible según el scroll
           const headerOffset = 125; // Justo debajo de la cabecera sticky móvil
-          const sections = CATALOG_CATEGORIES.map((cat) => document.getElementById(cat.id)).filter(Boolean);
+          const sections = currentCategories.map((cat) => document.getElementById(cat.id)).filter(Boolean);
           
           let currentActiveId = null;
           for (let i = 0; i < sections.length; i++) {
@@ -61,9 +62,9 @@ export default function StoreCatalog() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [searchQuery, setActiveCategory]);
+  }, [searchQuery, setActiveCategory, currentCategories]);
 
-  const filteredCategories = CATALOG_CATEGORIES.map((cat) => {
+  const filteredCategories = currentCategories.map((cat) => {
     if (!searchQuery) return cat;
     const query = searchQuery.toLowerCase();
     const matchingProducts = cat.products.filter(
@@ -125,8 +126,12 @@ export default function StoreCatalog() {
 
             {/* Products Grid */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-              {cat.products.map((product) => (
-                <ProductCard key={product.id} product={product} />
+              {cat.products.map((product, idx) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  revealDelay={(idx % 4) * 60}
+                />
               ))}
             </div>
           </section>

@@ -12,7 +12,7 @@ import {
 } from '../common/Icons';
 
 export default function InfoModal() {
-  const { isInfoOpen, setIsInfoOpen } = useCart();
+  const { isInfoOpen, setIsInfoOpen, storeSettings } = useCart();
   const isApple = isAppleDevice();
 
   if (!isInfoOpen) return null;
@@ -80,25 +80,43 @@ export default function InfoModal() {
               />
             </div>
 
-            {/* Botón único inteligente que detecta Apple Maps o Google Maps según el dispositivo */}
-            <div className="mt-3">
-              <button
-                onClick={openDeviceMap}
-                className="w-full btn-vibrant-flame text-white font-bold py-3 px-4 rounded-xl text-xs sm:text-sm uppercase tracking-wide transition flex items-center justify-center space-x-2 cursor-pointer active:scale-[0.98]"
-                title={isApple ? 'Abrir en Apple Maps' : 'Abrir en Google Maps'}
-              >
-                {isApple ? (
-                  <>
+            {/* Botones de navegación GPS */}
+            <div className="mt-3 space-y-2">
+              {isApple ? (
+                <>
+                  <a
+                    href={RESTAURANT_INFO.location.appleMapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full btn-vibrant-flame text-white font-bold py-3 px-4 rounded-xl text-xs sm:text-sm uppercase tracking-wide transition flex items-center justify-center space-x-2 cursor-pointer active:scale-[0.98] shadow-md"
+                    title="Abrir ubicación oficial en Apple Maps"
+                  >
                     <IconApple className="w-4 h-4 text-white" />
                     <span>Abrir en Apple Maps</span>
-                  </>
-                ) : (
-                  <>
-                    <IconGoogleMaps className="w-4 h-4 text-white" />
-                    <span>Abrir en Google Maps</span>
-                  </>
-                )}
-              </button>
+                  </a>
+                  <a
+                    href={RESTAURANT_INFO.location.googleMapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold py-2.5 px-4 rounded-xl text-xs uppercase tracking-wide transition flex items-center justify-center space-x-2 border border-stone-200 active:scale-[0.98] cursor-pointer"
+                    title="Abrir ubicación en Google Maps"
+                  >
+                    <IconGoogleMaps className="w-4 h-4 text-stone-600" />
+                    <span>O abrir en Google Maps</span>
+                  </a>
+                </>
+              ) : (
+                <a
+                  href={RESTAURANT_INFO.location.googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full btn-vibrant-flame text-white font-bold py-3 px-4 rounded-xl text-xs sm:text-sm uppercase tracking-wide transition flex items-center justify-center space-x-2 cursor-pointer active:scale-[0.98]"
+                  title="Abrir en Google Maps"
+                >
+                  <IconGoogleMaps className="w-4 h-4 text-white" />
+                  <span>Abrir en Google Maps</span>
+                </a>
+              )}
             </div>
           </div>
 
@@ -108,8 +126,8 @@ export default function InfoModal() {
               <IconClock className="w-4 h-4 text-[#cb6115]" />
               <span className="uppercase text-xs tracking-wider">Horario de Atención</span>
             </div>
-            <p className="font-bold text-stone-900">{RESTAURANT_INFO.schedule.days}:</p>
-            <p className="text-xs text-stone-600 mt-0.5">{RESTAURANT_INFO.schedule.hours}</p>
+            <p className="font-bold text-stone-900">{storeSettings?.schedule_days || RESTAURANT_INFO.schedule.days}:</p>
+            <p className="text-xs text-stone-600 mt-0.5">{storeSettings?.schedule_hours || RESTAURANT_INFO.schedule.hours}</p>
           </div>
 
           {/* Contacto & Pedidos */}
