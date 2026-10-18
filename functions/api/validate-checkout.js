@@ -25,6 +25,7 @@ export async function onRequestPost(context) {
       catalog = await env.CATALOG_KV.get('public_catalog', { type: 'json' });
     }
 
+    if (!catalog) {
       const supabaseUrl = env.VITE_SUPABASE_URL || 'https://vmuezpofboixfymeinld.supabase.co';
       const supabaseKey =
         env.VITE_SUPABASE_ANON_KEY ||

@@ -7,6 +7,7 @@
 export async function onRequestPost(context) {
   const { env } = context;
 
+  try {
     const supabaseUrl = env.VITE_SUPABASE_URL || 'https://vmuezpofboixfymeinld.supabase.co';
     const supabaseKey =
       env.VITE_SUPABASE_ANON_KEY ||
