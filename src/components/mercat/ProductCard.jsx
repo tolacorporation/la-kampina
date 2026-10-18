@@ -157,13 +157,6 @@ export default function ProductCard({ product, revealDelay = 0 }) {
           </span>
         )}
 
-        {/* Tag Minimalista de Live */}
-        {isEligibleForLiveDiscount && (
-          <span className="absolute top-2.5 right-2.5 z-20 text-[9px] font-bold tracking-wide uppercase px-2 py-0.5 rounded-full bg-red-600/90 backdrop-blur-md text-white border border-white/20 shadow-md flex items-center space-x-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-white" />
-            <span>En Vivo</span>
-          </span>
-        )}
 
         {/* Botón flotante para ver foto en grande / zoom */}
         {product.image && (
@@ -188,23 +181,29 @@ export default function ProductCard({ product, revealDelay = 0 }) {
         )}
       </div>
 
-      {/* Info & Actions (Limpio, directo y con opciones individualizadas a primera vista) */}
+      {/* Info & Actions (Limpio, espacioso y sin choques entre precio y botón en móvil) */}
       <div className="pt-3 pb-0.5 px-0.5 flex flex-col flex-1 justify-between">
         <div>
-          <h3 className="font-display font-bold text-sm md:text-base text-white tracking-[0.025em] line-clamp-2 leading-relaxed group-hover:text-amber-300 transition-colors duration-200">
+          <h3 className="font-display font-bold text-sm md:text-base text-white tracking-[0.025em] line-clamp-2 leading-snug group-hover:text-amber-300 transition-colors duration-200">
             {product.name}
           </h3>
         </div>
 
-        <div className="mt-3.5 pt-2.5 border-t border-white/10 flex items-center justify-between">
-          <div className="flex items-baseline space-x-1.5">
+        <div className="mt-3.5 pt-2.5 border-t border-white/10 flex items-end justify-between gap-1.5">
+          {/* Precios: estructura vertical para que el precio tachado y el precio actual respiren sin chocar con el botón */}
+          <div className="flex flex-col min-w-0">
+            {hasOptions && (
+              <span className="text-[9px] uppercase tracking-wider text-amber-300/80 font-bold leading-none mb-0.5">
+                Desde
+              </span>
+            )}
             {isEligibleForLiveDiscount && (
-              <span className="text-xs text-stone-500 line-through">
+              <span className="text-[10px] sm:text-[11px] text-stone-400 line-through font-mono leading-tight mb-0.5">
                 {originalPriceFormatted.replace('Desde ', '')}
               </span>
             )}
             <span
-              className={`text-base md:text-lg font-display font-extrabold tracking-normal drop-shadow-sm ${
+              className={`text-base sm:text-lg font-display font-extrabold tracking-normal leading-none drop-shadow-sm ${
                 isEligibleForLiveDiscount ? 'text-rose-400' : 'text-amber-400'
               }`}
             >
@@ -213,16 +212,17 @@ export default function ProductCard({ product, revealDelay = 0 }) {
           </div>
 
           <button
+            type="button"
             onClick={handleActionClick}
-            className={`text-white text-xs font-bold uppercase tracking-wider px-3.5 sm:px-4 py-2 rounded-xl flex items-center space-x-1.5 shadow-md transition-all duration-200 cursor-pointer ${
+            className={`flex-shrink-0 text-white text-[11px] sm:text-xs font-bold uppercase tracking-wider px-3 sm:px-4 py-2 min-h-[38px] rounded-xl flex items-center justify-center space-x-1.5 shadow-md transition-all duration-200 cursor-pointer active:scale-95 ${
               justAdded
                 ? 'bg-emerald-600 shadow-emerald-600/40 scale-105'
-                : 'btn-vibrant-flame shadow-[#cb6115]/40 border border-amber-500/20 active:scale-95'
+                : 'btn-vibrant-flame shadow-[#cb6115]/40 border border-amber-500/20'
             }`}
           >
             {justAdded ? (
               <>
-                <span className="text-sm font-black leading-none">✓</span>
+                <span className="text-xs font-black">✓</span>
                 <span>Listo</span>
               </>
             ) : (

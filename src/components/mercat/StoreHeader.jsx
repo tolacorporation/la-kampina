@@ -93,24 +93,21 @@ export default function StoreHeader({ onBackToLanding }) {
         </div>
       )}
 
-      {/* 🔴 Banner Dinámico de Live / Descuento Activo */}
+      {/* 🔴 Banner Dinámico de Live / Descuento Activo - Ultra Delgado y Centrado */}
       {liveDiscount?.active && (
-        <div className="relative overflow-hidden bg-gradient-to-r from-red-600 via-rose-700 to-red-600 border-b border-red-400/40 text-white animate-fade-in shadow-sm">
-          <div className="max-w-6xl mx-auto px-4 py-1.5 flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2 min-w-0">
-              <span className="relative flex h-2 w-2 flex-shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
-              </span>
-              <p className="text-[11px] sm:text-xs font-bold truncate tracking-wide">
-                <span className="bg-white/20 text-white uppercase text-[9px] font-black px-1.5 py-0.5 rounded tracking-wider mr-1.5">
-                  LIVE
-                </span>
-                {liveDiscount.title || '¡Estamos en Vivo! Descuento especial en todos los platos'}
-              </p>
-            </div>
-            <span className="text-[10px] uppercase font-bold text-amber-200 tracking-wider hidden sm:inline flex-shrink-0">
-              Descuento activo
+        <div className="relative overflow-hidden bg-gradient-to-r from-red-600 via-rose-600 to-red-600 text-white animate-fade-in py-1 px-3 border-b border-red-500/20 shadow-sm">
+          <div className="max-w-6xl mx-auto flex items-center justify-center gap-2 text-center">
+            <span className="relative flex h-2 w-2 flex-shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+            </span>
+            <span className="bg-white/20 text-white uppercase text-[9px] font-black px-1.5 py-0.5 rounded tracking-wider">
+              LIVE
+            </span>
+            <span className="text-[11px] sm:text-xs font-bold tracking-wide">
+              {liveDiscount.title && !liveDiscount.title.toLowerCase().includes('estamos en vivo')
+                ? liveDiscount.title
+                : 'Descuento especial en vivo'}
             </span>
           </div>
         </div>

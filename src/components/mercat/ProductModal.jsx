@@ -205,14 +205,9 @@ export default function ProductModal() {
               </h2>
               <div className="flex flex-col items-end ml-3 whitespace-nowrap">
                 {isEligibleForLiveDiscount && (
-                  <div className="flex items-center space-x-1 mb-0.5">
-                    <span className="text-xs text-stone-400 line-through">
-                      {formatPrice(rawUnitPrice)}
-                    </span>
-                    <span className="text-[9px] font-bold uppercase tracking-wider bg-red-600 text-white px-2 py-0.5 rounded-full">
-                      En Vivo
-                    </span>
-                  </div>
+                  <span className="text-xs text-stone-400 line-through mb-0.5">
+                    {formatPrice(rawUnitPrice)}
+                  </span>
                 )}
                 <span
                   className={`text-xl md:text-2xl font-display font-bold ${
