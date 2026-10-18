@@ -1,11 +1,5 @@
-# Configuración de Cloudflare Pages & Workers
+# Configuración de Cloudflare Pages
 name = "la-kampina"
 compatibility_date = "2024-01-01"
 pages_build_output_dir = "dist"
 
-# Binding de Cloudflare KV para el Patrón Búnker
-# En el panel de Cloudflare Pages > Settings > Functions > KV namespace bindings:
-# Variable name: CATALOG_KV
-[[kv_namespaces]]
-binding = "CATALOG_KV"
-id = "la_kampina_catalog_kv"
